@@ -63,7 +63,10 @@ div:has(> div#console).expanded {
   transform: translate(-60%, -10%) !important;
   filter: drop-shadow(0 .5rem 1rem #000) !important;
   resize: both;
-  transition: height 200ms, filter 200ms;
+  transition: filter 200ms;
+  /*! left: 0; */
+  animation-name: consoleExpand;
+  animation-duration: 200ms;
 }
 
 /* Панель "Нагрузка на ноды" */
@@ -112,4 +115,14 @@ a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] {
   background-color: #1c2230;
   border-bottom: solid 1px #fff2 !important;
   height: 36px !important;
+}
+
+@keyframes consoleExpand {
+  from {
+    height: 40%;
+  }
+  
+  to {
+    height: 80%;
+  }
 }
