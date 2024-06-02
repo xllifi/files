@@ -1,0 +1,84 @@
+/* Кнопка "Перейти" */
+td:has(a[href*=\/servers\/]) {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(28, 34, 48)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-arrow-right-from-line'><path d='M3 5v14'/><path d='M21 12H7'/><path d='m15 18 6-6-6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 5vh;
+  background-position-x: 4.5vw;
+  background-color: #22293b;
+  background-clip: padding-box;
+  transition: all 200ms;
+}
+td:has(a[href*=\/servers\/]):hover {
+  background-color: hsl(223, 25%, 24%);
+  background-position-x: 4.6vw;
+}
+
+/* Кнопки сверху */
+div[class~="w-full"] > a[class~="text-white"] {
+  padding: 0.5rem;
+  background-color: #1c2230;
+  border-radius: 5px;
+}
+div[class~="w-full"] > a[class~="text-white"]:hover {
+  background-color: #293041;
+}
+div[class~="rounded-lg"]:has(a[class~="text-white"]) {
+  padding: 0 0.5rem;
+  gap: 0.5rem;
+}
+
+/* Панель "Информация о сервере" */
+.w-full.flex.items-center.justify-between.py-2 {
+  padding: 0.25rem 0.5rem !important;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+/* Панель "Нагрузка на ноды" */
+.p-4.rounded-lg.flex.flex-col {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.p-4.rounded-lg.flex.flex-col > * {
+  flex: 1 1 60px !important;
+}
+.grid.grid-cols-6.items-center.px-4.justify-between[class*=" "]:nth-child(even) {
+  background-color: #fff1 !important;
+}
+.grid.grid-cols-6.items-center.px-4.justify-between[class*=" "]:nth-child(even)[class*="bg-green-500/[.05]"] {
+  background-color: #0f01 !important;
+}
+
+/* Панель "Перенос сервера" */
+.flex.items-end {
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0;
+}
+.flex.items-end > div:has(select) {
+  padding: 0.5rem;
+  background-color: #fff1;
+  border-radius: 5px;
+  flex-grow: 1;
+}
+.flex.items-end > div:has(button) {
+  margin-bottom: auto;
+}
+form.p-4.rounded-lg {
+  padding: 0.5rem !important;
+}
+
+/* Панель "Файлы сервера" */
+div.p-4.rounded-lg:has(a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"]) {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem !important;
+  gap: 0.25rem;
+}
+
+a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] {
+  border-radius: 0.25rem;
+  background-color: #1c2230;
+  border-bottom: solid 1px #fff2 !important;
+  height: 36px !important;
+}
