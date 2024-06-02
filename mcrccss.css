@@ -115,12 +115,15 @@ div.p-4.rounded-lg:has(a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"
 }
 
 a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] {
+  grid-template-columns: 1fr;
+  padding: 0 0.6rem;
   border-radius: 0.25rem;
   background-color: #1c2230;
   border-bottom: solid 1px #fff2 !important;
   height: 36px !important;
 }
 
+/* Анимации */
 @keyframes consoleExpand {
   from {
     height: 40%;
