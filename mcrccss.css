@@ -49,6 +49,7 @@ div#console * {
   font-family: inherit;
 }
 div:has(> div#console) {
+  /*! transition: all 0ms, transform 200ms; */
   position: relative;
 }
 div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#console),
@@ -58,8 +59,14 @@ div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#latestlog) {
 div:has(> div#console).expanded {
   position: absolute !important;
   width: 80%;
+  min-width: 45rem;
+  max-width: 98%;
   height: 80%;
-  transform: translate(-60%, -10%) !important;
+  min-height: 30rem;
+  max-height: 160%;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%, 0) !important;
   filter: drop-shadow(0 .5rem 1rem #000) !important;
   resize: both;
   transition: filter 200ms;
