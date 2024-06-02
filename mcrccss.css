@@ -56,6 +56,13 @@ div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#console),
 div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#latestlog) {
   overflow-y: none !important;
 }
+div:has(> div#console).expanded {
+  position: absolute !important;
+  width: 80% !important;
+  height: 80% !important;
+  transform: translate(-60%, -10%) !important;
+  filter: drop-shadow(0 .5rem 1rem #000) !important;
+}
 
 /* Панель "Нагрузка на ноды" */
 .p-4.rounded-lg.flex.flex-col {
