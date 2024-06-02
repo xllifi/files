@@ -35,6 +35,15 @@ div[class~="rounded-lg"]:has(a[class~="text-white"]) {
   margin-bottom: 5px;
 }
 
+/* Улучшение панели "Консоль" и "latest.log" */
+p#console, p#latestlog {
+  font-family: "Cascadia Code", monospace !important;
+  padding: 0.25rem !important;
+  background-color: #1c2230;
+  border: solid 1rem #22293b !important;
+  border-radius: 1.2rem !important;
+}
+
 /* Панель "Нагрузка на ноды" */
 .p-4.rounded-lg.flex.flex-col {
   padding-right: 0 !important;
