@@ -98,8 +98,3 @@ a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] {
   border-bottom: solid 1px #fff2 !important;
   height: 36px !important;
 }
-
-/* Правильная высота для консоли и логов */
-#console, #latestlog {
-  height: max-content !important;
-}
