@@ -44,10 +44,12 @@ div#console, p#latestlog {
   border-radius: 1.2rem !important;
   white-space: nowrap;
   overflow: auto;
-  transition: all 200ms;
 }
 div#console * {
   font-family: inherit;
+}
+div:has(> div#console) {
+  transition: all 200ms;
 }
 div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#console),
 div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#latestlog) {
