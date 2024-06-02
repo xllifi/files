@@ -49,7 +49,6 @@ div#console * {
   font-family: inherit;
 }
 div:has(> div#console) {
-  transition: all 0ms, transform 200ms;
   position: relative;
 }
 div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#console),
@@ -64,9 +63,7 @@ div:has(> div#console).expanded {
   filter: drop-shadow(0 .5rem 1rem #000) !important;
   resize: both;
   transition: filter 200ms;
-  /*! left: 0; */
-  animation-name: consoleExpand;
-  animation-duration: 200ms;
+  animation: consoleExpand 200ms;
 }
 
 /* Панель "Нагрузка на ноды" */
@@ -124,5 +121,17 @@ a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] {
   
   to {
     height: 80%;
+  }
+}
+
+@keyframes consoleShrink {
+  from {
+    transform: translateX(-60%);
+    width: 160%;
+  }
+  
+  to {
+    transform: translateX(0%);
+    width: 100%;
   }
 }
