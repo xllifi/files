@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.6
+// @version      0.0.7
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://team.minecraft.rent/*
@@ -30,7 +30,7 @@
         // const consoleExpandToggle = document.getElementById('consoleExpandToggle');
         var consoleWrapperClasses = consoleWrapper.className;
         if (consoleWrapperClasses.includes("expanded")) {
-            consoleWrapper.classList.remove('expanded'); consoleWrapper.style.width = null; consoleWrapper.style.height = null;
+            consoleWrapper.classList.remove('expanded'); consoleWrapper.style.width = null; consoleWrapper.style.height = null; consoleWrapper.style.animation = 'consoleShrink 200ms';
 
             consoleExpandToggle.style.backgroundImage = expandIcon;
 
@@ -40,7 +40,7 @@
 
             consoleExpandToggle.style.backgroundImage = shrinkIcon;
 
-            consoleWrapper.parentElement.insertBefore(consoleHeightHolder, consoleWrapper.nextElementSibling);
+            consoleWrapper.parentElement.insertBefore(consoleHeightHolder, consoleWrapper.nextElementSibling); consoleWrapper.style.animation = 'consoleExpand 200ms';
         }
     };
     consoleWrapper.appendChild(consoleExpandToggle);
