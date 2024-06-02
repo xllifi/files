@@ -62,6 +62,7 @@ div:has(> div#console).expanded {
   height: 80%;
   transform: translate(-60%, -10%) !important;
   filter: drop-shadow(0 .5rem 1rem #000) !important;
+  resize: both;
 }
 
 /* Панель "Нагрузка на ноды" */
