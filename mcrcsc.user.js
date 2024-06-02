@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.5
+// @version      0.0.6
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://team.minecraft.rent/*
@@ -24,6 +24,7 @@
     /* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.className = 'text-white'; statusMsg.style.cssText = 'padding: 1rem 2rem; display: flex; background-color: rgba(34, 197, 94, 0.5); background-image: url(\"data:image\/svg+xml;utf8,<svg xmlns=\'http:\/\/www.w3.org\/2000\/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'lucide lucide-check-check\'><path d=\'M18 6 7 17l-5-5\'\/><path d=\'m22 10-7.5 7.5L13 16\'\/><\/svg>\"); background-size: 1.5rem; background-repeat: no-repeat; background-position: right 1rem center;'; statusMsg.textContent = 'Патч загружен'; tabsBar.appendChild(statusMsg);
 
     /*           Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
+    /* Создаё заполнитель высоты консоли */ const consoleHeightHolder = document.createElement('div'); consoleHeightHolder.style.cssText = 'height: 500px; width: 100%;'; consoleHeightHolder.id = 'consoleHeightHolder';
     /* Создаём элемент для переключателя */ const consoleExpandToggle = document.createElement('button'); consoleExpandToggle.id = 'consoleExpandToggle'; consoleExpandToggle.style.cssText = 'position: absolute; right: 2rem; top: 2rem; width: 1.5rem; height: 1.5rem;'; consoleExpandToggle.style.backgroundImage = expandIcon;
     consoleExpandToggle.onclick = function () {
         // const consoleExpandToggle = document.getElementById('consoleExpandToggle');
@@ -32,9 +33,14 @@
             consoleWrapper.classList.remove('expanded'); consoleWrapper.style.width = null; consoleWrapper.style.height = null;
 
             consoleExpandToggle.style.backgroundImage = expandIcon;
+
+            document.getElementById('consoleHeightHolder').remove();
         } else {
             consoleWrapper.classList.add('expanded');
+
             consoleExpandToggle.style.backgroundImage = shrinkIcon;
+
+            consoleWrapper.parentElement.insertBefore(consoleHeightHolder, consoleWrapper.nextElementSibling);
         }
     };
     consoleWrapper.appendChild(consoleExpandToggle);
