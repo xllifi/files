@@ -46,6 +46,9 @@ div#console, p#latestlog {
   overflow: auto;
   transition: all 200ms;
 }
+div#console > *div {
+  font-family: "Cascadia Code", monospace !important;
+}
 div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#console),
 div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#latestlog) {
   overflow-y: none !important;
