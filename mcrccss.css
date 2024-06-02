@@ -42,6 +42,12 @@ p#console, p#latestlog {
   background-color: #1c2230;
   border: solid 1rem #22293b !important;
   border-radius: 1.2rem !important;
+  white-space: nowrap;
+  overflow: auto;
+}
+div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#console),
+div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#latestlog) {
+  overflow-y: none !important;
 }
 
 /* Панель "Нагрузка на ноды" */
