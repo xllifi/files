@@ -36,7 +36,7 @@ div[class~="rounded-lg"]:has(a[class="text-white"]) {
 }
 
 /* Улучшение панели "Консоль" и "latest.log" */
-div#console, p#latestlog {
+p#console, p#latestlog {
   font-family: "Cascadia Code", monospace !important;
   padding: 0.25rem !important;
   background-color: #1c2230;
@@ -52,7 +52,8 @@ div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#latestlog) {
 
 /* Панель "Нагрузка на ноды" */
 .p-4.rounded-lg.flex.flex-col {
-  padding: 0 !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 .p-4.rounded-lg.flex.flex-col > * {
   flex: 1 1 60px !important;
