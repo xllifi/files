@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи для админ-панели Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      2024-06-02
+// @version      2024-06-02-15
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://team.minecraft.rent/*
