@@ -49,7 +49,7 @@ div#console * {
   font-family: inherit;
 }
 div:has(> div#console) {
-  transition: all 200ms, height 0ms;
+  transition: all 0ms, transform 200ms;
   position: relative;
 }
 div.w-full.flex.items-end.overflow-y-auto.rounded-lg:has(p#console),
@@ -63,6 +63,7 @@ div:has(> div#console).expanded {
   transform: translate(-60%, -10%) !important;
   filter: drop-shadow(0 .5rem 1rem #000) !important;
   resize: both;
+  transition: height 200ms, filter 200ms;
 }
 
 /* Панель "Нагрузка на ноды" */
