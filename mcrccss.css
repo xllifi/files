@@ -123,6 +123,27 @@ a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] {
   height: 36px !important;
 }
 
+/* Избранные сервера */
+#favServerWrapper {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+}
+#favServerWrapper > a {
+  background: #22293b;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  border-bottom:  solid 1px #fff2 !important;
+}
+#favServerWrapper > a:hover {
+  background: #fff1;
+}
+#favServerWrapper > p {
+  padding: 0.125rem 0;
+  margin-right: 0.25rem;
+}
+
+
 /* Анимации */
 @keyframes consoleExpand {
   from {
