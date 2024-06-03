@@ -71,6 +71,14 @@ div:has(> div#console).expanded {
   transition: filter 200ms;
   animation: consoleExpand 200ms;
 }
+.consoleExpandToggle {
+  position: absolute;
+  left: unset;
+  right: 2rem;
+  top: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
 
 /* Панель "Нагрузка на ноды" */
 .p-4.rounded-lg.flex.flex-col {
