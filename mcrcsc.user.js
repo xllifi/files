@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.8
+// @version      0.0.9
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://team.minecraft.rent/*
@@ -21,7 +21,7 @@ console.log("[Патчи] Скрипт начал работу.");
 /* предотвращают кеширование   */
 
 /* Находим панель со вкладками */ const tabsBar = document.getElementsByClassName("min-w-[300px] h-screen bg-[#22293b] fixed top-0 left-0")[0];
-/* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.className = 'text-white'; statusMsg.style.cssText = 'padding: 1rem 2rem; display: flex; background-color: rgba(34, 197, 94, 0.5); background-image: url(\"data:image\/svg+xml;utf8,<svg xmlns=\'http:\/\/www.w3.org\/2000\/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'lucide lucide-check-check\'><path d=\'M18 6 7 17l-5-5\'\/><path d=\'m22 10-7.5 7.5L13 16\'\/><\/svg>\"); background-size: 1.5rem; background-repeat: no-repeat; background-position: right 1rem center;'; statusMsg.textContent = 'Патч загружен'; tabsBar.appendChild(statusMsg);
+/* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.setAttribute("target", "_blank"); statusMsg.href = 'https://github.com/xllifi/files/raw/main/mcrcsc.user.js'; statusMsg.className = 'text-white'; statusMsg.style.cssText = 'padding: 1rem 2rem; display: flex; background-color: rgba(34, 197, 94, 0.5); background-image: url(\"data:image\/svg+xml;utf8,<svg xmlns=\'http:\/\/www.w3.org\/2000\/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'lucide lucide-check-check\'><path d=\'M18 6 7 17l-5-5\'\/><path d=\'m22 10-7.5 7.5L13 16\'\/><\/svg>\"); background-size: 1.5rem; background-repeat: no-repeat; background-position: right 1rem center;'; statusMsg.textContent = 'Патч загружен'; tabsBar.appendChild(statusMsg);
 
 /* Добавляем иконку сайту      */ var faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; document.head.appendChild(faviconLink); faviconLink.href = 'https://minecraft.rent/favicon.ico'
 
@@ -119,8 +119,6 @@ console.log("[Патчи] Скрипт начал работу.");
             console.log('[Патчи] Кнопка "Избранное" добавлена к серверу ' + searchTableContents[i].lastElementChild.firstElementChild.lastChild.textContent.replace(/("|\n|\W)/gm, ""))
         }
     }
-
-
 } else {
     console.log('no known link found');
     // alert("not in server control");
