@@ -173,72 +173,70 @@ a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] {
 
 
 /* Страница входа */
-@document url(https://team.minecraft.rent/login){
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
   
-  * {
-      margin: 0;
-      padding: 0;
-      left: 0;
-      top: 0;
-      transition: all 0ms;
-  }
-  body {
-      background-color: #1b2230;
-      height: 100vh;
-  }
-  .form-signin {
-      height: 100%;
-  }
-  .form-signin>form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      gap: 0.25rem;
-      vertical-align: top;
-  }
-  .form-signin>form>img {
-      margin-top: 5rem;
-      content: url(https://minecraft.rent/static/images/af0cdf2928908a72d447.png);
-      width: 5rem;
-      height: 5rem;
-  }
-  .form-signin>form>h1 {
-      font-family: "Roboto";
-      font-weight: 800;
-      font-size: 4rem;
-      margin-bottom: 2rem;
-  }
-  .btn-primary {
-      font-size: 1rem;
-      padding: .5rem 2rem;
-      background-color: #285dff;
-      border: none;
-      border-bottom: 1px solid #fff2;
-      border-radius: 0.25rem;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-  }
-  .btn-primary:hover {
-      background-color: #2840ff;
-      border-bottom: 1px solid #fff3;
-  }
-  .form-group>label {
-      display: none;
-  }
-  .form-control {
-      border-radius: 0.25rem;
-      font-size: 1rem;
-      padding: .5rem;
-      background-color: #2b3342;
-      border: none;
-  }
-  .form-control:autofill {
-      border-bottom: 1px solid #fff1;
-      margin-bottom: -1px;
-      background-color: #00f !important;
-  }
+* {
+    margin: 0;
+    padding: 0;
+    left: 0;
+    top: 0;
+    transition: all 0ms;
+}
+body {
+    background-color: #1b2230;
+    height: 100vh;
+}
+.form-signin {
+    height: 100%;
+}
+.form-signin>form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 0.25rem;
+    vertical-align: top;
+}
+.form-signin>form>img {
+    margin-top: 5rem;
+    content: url(https://minecraft.rent/static/images/af0cdf2928908a72d447.png);
+    width: 5rem;
+    height: 5rem;
+}
+.form-signin>form>h1 {
+    font-family: "Roboto";
+    font-weight: 800;
+    font-size: 4rem;
+    margin-bottom: 2rem;
+}
+.btn-primary {
+    font-size: 1rem;
+    padding: .5rem 2rem;
+    background-color: #285dff;
+    border: none;
+    border-bottom: 1px solid #fff2;
+    border-radius: 0.25rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+.btn-primary:hover {
+    background-color: #2840ff;
+    border-bottom: 1px solid #fff3;
+}
+.form-group>label {
+    display: none;
+}
+.form-control {
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    padding: .5rem;
+    background-color: #2b3342;
+    border: none;
+}
+.form-control:autofill {
+    border-bottom: 1px solid #fff1;
+    margin-bottom: -1px;
+    background-color: #00f !important;
 }
