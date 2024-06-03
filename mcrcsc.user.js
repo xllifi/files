@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.9
+// @version      0.0.10
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://team.minecraft.rent/*
@@ -31,7 +31,7 @@ console.log("[Патчи] Скрипт начал работу.");
 
     /*           Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
     /* Создаё заполнитель высоты консоли */ const consoleHeightHolder = document.createElement('div'); consoleHeightHolder.style.cssText = 'height: 500px; width: 100%;'; consoleHeightHolder.id = 'consoleHeightHolder';
-    /* Создаём элемент для переключателя */ const consoleExpandToggle = document.createElement('button'); consoleExpandToggle.id = 'consoleExpandToggle'; consoleExpandToggle.style.cssText = 'position: absolute; right: 2rem; top: 2rem; width: 1.5rem; height: 1.5rem;'; consoleExpandToggle.style.backgroundImage = expandIcon;
+    /* Создаём элемент для переключателя */ const consoleExpandToggle = document.createElement('button'); consoleExpandToggle.id = 'consoleExpandToggle'; consoleExpandToggle.classList.add('consoleExpandToggle'); consoleExpandToggle.style.backgroundImage = expandIcon;
     consoleExpandToggle.onclick = function () {
         // const consoleExpandToggle = document.getElementById('consoleExpandToggle');
         var consoleWrapperClasses = consoleWrapper.className;
@@ -110,7 +110,7 @@ console.log("[Патчи] Скрипт начал работу.");
     }
 
         /* Добавление кнопки "Избранное" */ const searchTableContents = document.querySelector("body div div table").childNodes;
-    const favButton = document.createElement('button'); favButton.setAttribute("onclick", "favClicked(this)"); favButton.style.cssText = `position: absolute; transform: translate(-2.25rem, 0); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='gold' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"); height: 24px; width: 24px;`;
+    const favButton = document.createElement('button'); favButton.setAttribute("onclick", "favClicked(this)");
 
     for (var i = 0; i < searchTableContents.length; i++) {
         if (searchTableContents[i].tagName == "TBODY" && searchTableContents[i].lastElementChild.firstElementChild.firstElementChild.textContent == "UUID") {
