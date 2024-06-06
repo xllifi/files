@@ -4,7 +4,9 @@
 // @version      0.0.10
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
-// @match        https://team.minecraft.rent/*
+// @match        https://*.minecraft.rent/*
+// @exclude      https://my.minecraft.rent/*
+// @exclude      https://minecraft.rent/*
 // @icon         https://minecraft.rent/favicon.ico
 // @grant        unsafeWindow
 // @run-at       document-end
@@ -17,7 +19,7 @@ var shrinkIcon = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/200
 
 console.log("[Патчи] Скрипт начал работу.");
 /* Создаём ссылку на стиль CSS */ var cssElement = document.createElement('link'); cssElement.rel = 'stylesheet'; document.head.appendChild(cssElement);
-/* рандомные цифры в конце     */ cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
+/* Рандомные цифры в конце     */ cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
 /* предотвращают кеширование   */
 
 /* Находим панель со вкладками */ const tabsBar = document.getElementsByClassName("min-w-[300px] h-screen bg-[#22293b] fixed top-0 left-0")[0];
@@ -25,9 +27,9 @@ console.log("[Патчи] Скрипт начал работу.");
 
 /* Добавляем иконку сайту      */ var faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; document.head.appendChild(faviconLink); faviconLink.href = 'https://minecraft.rent/favicon.ico'
 
-/* Отсоединение консоли */ if (window.location.href.match("https:\/\/team.minecraft.rent\/servers\/.{8}")) {
+/* Отсоединение консоли */ if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) {
     console.log('[Патчи] Обнаружена страница управления сервером: ' + window.location.href);
-    document.title = 'ПУ сервера ' + window.location.href.split("https:\/\/team.minecraft.rent\/servers\/", 2)[1] + ' | Админ-панель Minecraft.RENT';
+    document.title = 'ПУ сервера ' + window.location.href.match(/[\w\d]{8}(?!.*\.rent)/g) + ' | Админ-панель Minecraft.RENT';
 
     /*           Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
     /* Создаё заполнитель высоты консоли */ const consoleHeightHolder = document.createElement('div'); consoleHeightHolder.style.cssText = 'height: 500px; width: 100%;'; consoleHeightHolder.id = 'consoleHeightHolder';
@@ -50,7 +52,7 @@ console.log("[Патчи] Скрипт начал работу.");
         }
     };
     consoleWrapper.appendChild(consoleExpandToggle);
-/* Любимые сервера      */ } else if (window.location.href === "https://team.minecraft.rent/servers" || "https://team.minecraft.rent/servers/") {
+/* Любимые сервера      */ } else if (window.location.href.includes("/servers") && !window.location.href.includes("/servers")) {
     console.log('[Патчи] Обнаружена страница поиска: ' + window.location.href);
     document.title = 'Поиск серверов | Админ-панель Minecraft.RENT';
 
@@ -84,7 +86,7 @@ console.log("[Патчи] Скрипт начал работу.");
             favServerWrapper.appendChild(favServerText);
         }
         for (i = 0; i < favServersArray.length; i++) {
-            favServer.textContent = favServersArray[i]; favServer.href = 'https://team.minecraft.rent/servers/' + favServersArray[i]; favServerWrapper.appendChild(favServer.cloneNode(true));
+            favServer.textContent = favServersArray[i]; favServer.href = '/servers/' + favServersArray[i]; favServerWrapper.appendChild(favServer.cloneNode(true));
         }
     }
     updateFavServers();
