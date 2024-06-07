@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.11
+// @version      0.0.12
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minecraft.rent/*
@@ -18,26 +18,29 @@ var expandIcon = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/200
 var shrinkIcon = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m15 15 6 6m-6-6v4.8m0-4.8h4.8'/><path d='M9 19.8V15m0 0H4.2M9 15l-6 6'/><path d='M15 4.2V9m0 0h4.8M15 9l6-6'/><path d='M9 4.2V9m0 0H4.2M9 9 3 3'/></svg>")`;
 var tickIcon   = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 6 7 17l-5-5'/><path d='m22 10-7.5 7.5L13 16'/></svg>")`;
 var updateIcon = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/><path d='M3 3v5h5'/><path d='M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16'/><path d='M16 16h5v5'/></svg>")`;
-var dblQIcon   = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.9,6.1c2-2.1,5.4-2.3,7.6-0.3c1.6,1.5,2.1,3.9,1.3,6.1c-1.6,3.3-7.2,2.6-7.2,2.6'/><path d='M13.2,19.6L13.2,19.6'/><path d='M2,9.6c0.1-2.1,2-3.7,4-3.5C7.7,6.2,9,7.3,9.5,8.9c0.6,2.4-2.6,4.7-2.6,4.7'/><path d='M8.2,18.3L8.2,18.3'/></svg>")`; 
+var dblQIcon   = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.9,6.1c2-2.1,5.4-2.3,7.6-0.3c1.6,1.5,2.1,3.9,1.3,6.1c-1.6,3.3-7.2,2.6-7.2,2.6'/><path d='M13.2,19.6L13.2,19.6'/><path d='M2,9.6c0.1-2.1,2-3.7,4-3.5C7.7,6.2,9,7.3,9.5,8.9c0.6,2.4-2.6,4.7-2.6,4.7'/><path d='M8.2,18.3L8.2,18.3'/></svg>")`;
 
 
 console.log("[Патчи] Скрипт начал работу.");
 
-/* ====== Элементы HEAD ====== */
-/* Создаём ссылку на стиль CSS */ var cssElement = document.createElement('link'); cssElement.rel = 'stylesheet'; document.head.appendChild(cssElement);
-/* Рандомные цифры в конце     */ cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
-/* предотвращают кеширование   */
-/* Добавляем иконку сайту      */ var faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; document.head.appendChild(faviconLink); faviconLink.href = 'https://minecraft.rent/favicon.ico'
-
 /* ======== Переменные ======= */
+/*  Заполнитель высоты консоли */ const consoleHeightHolder = document.createElement('div'); consoleHeightHolder.style.cssText = 'height: 500px; width: 100%;'; consoleHeightHolder.id = 'consoleHeightHolder';
+/*   Элемент для переключателя */ const consoleExpandToggle = document.createElement('button'); consoleExpandToggle.id = 'consoleExpandToggle'; consoleExpandToggle.classList.add('consoleExpandToggle'); consoleExpandToggle.style.backgroundImage = expandIcon; consoleExpandToggle.setAttribute("onclick", "toggleConsoleExpand()");
 /*    Враппер любимых серверов */ const favServerWrapper = document.createElement('div'); favServerWrapper.id = "favServerWrapper";
-/*  Текст для любимых серверов */ const favServerText = document.createElement('p'); favServerText.textContent = 'Избранные сервера:'
+/*  Текст для любимых серверов */ const favServerText = document.createElement('p'); favServerText.textContent = 'Избранные сервера:';
 /*     Кнопка любимого сервера */ const favServer = document.createElement('a');
-/*    Получаем массив серверов */ const favServersJSON = localStorage.getItem("favServersJSON")
-var favServersArray = []; // Создаёт пустой массив
+/*    Получаем массив серверов */ const favServersJSON = localStorage.getItem("favServersJSON");
+/*                   CSS стиль */ var cssElement = document.createElement('link'); cssElement.rel = 'stylesheet'; document.head.appendChild(cssElement);
+/*                      Иконка */ var faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; faviconLink.setAttribute('href', 'https://minecraft.rent/favicon.ico');
+var favServersArray = [];
 if (favServersJSON != null) {
     favServersArray = JSON.parse(favServersJSON); // Возвращает массив
 }
+
+/* ====== Элементы HEAD ====== */
+cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
+document.head.appendChild(faviconLink);
+
 
 /* ========= Функции ========= */
 function updateFavServers() {
@@ -73,6 +76,7 @@ function favClicked(actor) {
     updateFavServers();
 };
 function toggleConsoleExpand() {
+    const consoleWrapper = document.getElementById('console-scroll');
     var consoleWrapperClasses = consoleWrapper.className;
     if (consoleWrapperClasses.includes("expanded")) {
         consoleWrapper.classList.remove('expanded'); consoleWrapper.style.width = null; consoleWrapper.style.height = null; consoleWrapper.style.animation = 'consoleShrink 200ms';
@@ -88,6 +92,13 @@ function toggleConsoleExpand() {
         consoleWrapper.parentElement.insertBefore(consoleHeightHolder, consoleWrapper.nextElementSibling); consoleWrapper.style.animation = 'consoleExpand 200ms';
     }
 };
+
+if (!unsafeWindow.favClicked) {
+    unsafeWindow.favClicked = favClicked;
+}
+if (!unsafeWindow.toggleConsoleExpand) {
+    unsafeWindow.toggleConsoleExpand = toggleConsoleExpand;
+}
 
 //
 // Загрузка страницы началась
@@ -125,7 +136,7 @@ window.onload = async function () {
             console.log('[Патчи] Слишком новая версия');
             statusMsg.textContent = 'Неправильная версия!';
             statusMsg.style.backgroundImage = dblQIcon;
-            statusMsg.style.backgroundColor = 'rgba(245, 158, 11, 0.5)';
+            statusMsg.style.backgroundColor = 'rgba(109, 40, 217, 0.5)';
         } else {
             statusMsg.textContent = 'Обновлений не найдено';
             statusMsg.style.backgroundImage = tickIcon;
@@ -137,22 +148,15 @@ window.onload = async function () {
     searchBar.append(favServerWrapper);
     // console.log(favServersJSON + "\n" + favServersArray.length + "\n" + document.getElementById("favServerWrapper").firstChild + "\n");
 
-    /* Страница информации о сервере */ if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}/g) && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) {
-    /*            Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
-    /* Создаём заполнитель высоты консоли */ const consoleHeightHolder = document.createElement('div'); consoleHeightHolder.style.cssText = 'height: 500px; width: 100%;'; consoleHeightHolder.id = 'consoleHeightHolder';
-    /*  Создаём элемент для переключателя */ const consoleExpandToggle = document.createElement('button'); consoleExpandToggle.id = 'consoleExpandToggle'; consoleExpandToggle.classList.add('consoleExpandToggle'); consoleExpandToggle.style.backgroundImage = expandIcon; consoleExpandToggle.setAttribute("onclick", "toggleConsoleExpand()");
+    if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}/g) && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.+/g)) { /* Страница информации о сервере */
+        /*            Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
         consoleWrapper.appendChild(consoleExpandToggle);
-        /*   Поиск серверов */
-    /*               Страница поиска */ } else if (window.location.href.includes("/servers") && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) {
-        if (!unsafeWindow.favClicked) {
-            unsafeWindow.favClicked = favClicked;
-        }
-
-        if (document.querySelector("body div div table") != null) {
-        /* Добавление кнопки "Избранное" */ const searchTableContents = document.querySelector("body div div table").childNodes;
-        const favButton = document.createElement('button'); favButton.setAttribute("onclick", "favClicked(this)");
-
-            for (var i = 0, arr = document.querySelector("body div div table").childNodes; i < arr.length; i++) {
+    } else if (window.location.href.includes("/servers") && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { /* Страница поиска */
+        const resultsTable = document.querySelector("body div div table");
+        if (resultsTable != null) {
+            const searchTableContents = resultsTable.childNodes;
+            const favButton = document.createElement('button'); favButton.setAttribute("onclick", "favClicked(this)");
+            for (var i = 0, arr = resultsTable.childNodes; i < arr.length; i++) {
                 if (searchTableContents[i].tagName == "TBODY" && searchTableContents[i].lastElementChild.firstElementChild.firstElementChild.textContent == "UUID") {
                     var uuidEl = searchTableContents[i].lastElementChild.firstElementChild;
                     uuidEl.insertBefore(favButton.cloneNode(true), uuidEl.firstElementChild);
