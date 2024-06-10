@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.12
+// @version      0.0.13
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
-// @match        https://*.minecraft.rent/*
-// @exclude      https://my.minecraft.rent/*
-// @exclude      https://minecraft.rent
-// @icon         https://minecraft.rent/favicon.ico
+// @match        https://*.minerent.net/*
+// @exclude      https://my.minerent.net/*
+// @exclude      https://minerent.net
+// @icon         https://minerent.net/favicon.ico
 // @grant        unsafeWindow
 // @grant        GM_info
 // @run-at       document-start
