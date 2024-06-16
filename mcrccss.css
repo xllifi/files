@@ -130,7 +130,7 @@ div.p-4.rounded-lg:has(a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"
   gap: 0.25rem;
 }
 
-a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] {
+.bg-\[\#22293b\].p-4.rounded-lg > * {
   padding: 0 0.6rem;
   border-radius: 0.25rem;
   background-color: #1c2230;
@@ -138,11 +138,28 @@ a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] {
   height: 36px !important;
 }
 
-a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"] > div > p {
+.bg-\[\#22293b\].p-4.rounded-lg > * > .min-w-\[50px\],
+.bg-\[\#22293b\].p-4.rounded-lg > * > div > .min-w-\[50px\]{
+  min-width: 20px;
+}
+
+.bg-\[\#22293b\].p-4.rounded-lg > * > * {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   padding-right: 20px;
+}
+
+.bg-\[\#22293b\].p-4.rounded-lg > *:first-child {
+  background-color: #22293b;
+  border-bottom: none !important;
+}
+.bg-\[\#22293b\].p-4.rounded-lg > a:first-of-type {
+  width: max-content;
+}
+.bg-\[\#22293b\].p-4.rounded-lg > a:first-of-type > .min-w-\[50px\]{
+  padding-right: 0px;
+  margin-right: -2px;
 }
 
 /* Избранные сервера */
