@@ -123,22 +123,14 @@ form.p-4.rounded-lg {
 }
 
 /* Панель "Файлы сервера" */
-.bg-\[\#22293b\].p-4.rounded-lg {
+.bg-\[\#22293b\].p-4.rounded-lg:has(*[href*="/files"]) {
   display: flex;
   flex-direction: column;
   padding: 0.5rem !important;
   gap: 0.25rem;
 }
 
-.bg-\[\#22293b\].p-4.rounded-lg > * {
-  padding: 0 0.6rem;
-  border-radius: 0.25rem;
-  background-color: #1c2230;
-  border-bottom: solid 1px #fff2;
-  height: 36px;
-}
-
-.bg-\[\#22293b\].p-4.rounded-lg > * {
+.bg-\[\#22293b\].p-4.rounded-lg > *[href*="/files"] {
   padding: 0 0.6rem;
   border-radius: 0.25rem;
   background-color: #1c2230;
