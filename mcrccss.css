@@ -123,7 +123,7 @@ form.p-4.rounded-lg {
 }
 
 /* Панель "Файлы сервера" */
-div.p-4.rounded-lg:has(a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"]) {
+.bg-\[\#22293b\].p-4.rounded-lg {
   display: flex;
   flex-direction: column;
   padding: 0.5rem !important;
@@ -134,32 +134,25 @@ div.p-4.rounded-lg:has(a.w-full.grid.grid-cols-5.items-center.px-4[href*="files"
   padding: 0 0.6rem;
   border-radius: 0.25rem;
   background-color: #1c2230;
-  border-bottom: solid 1px #fff2 !important;
-  height: 36px !important;
+  border-bottom: solid 1px #fff2;
+  height: 36px;
 }
 
-.bg-\[\#22293b\].p-4.rounded-lg > * > .min-w-\[50px\],
-.bg-\[\#22293b\].p-4.rounded-lg > * > div > .min-w-\[50px\]{
-  min-width: 20px;
+.bg-\[\#22293b\].p-4.rounded-lg > div:first-of-type {
+  background-color: #22293b;
+  border-bottom: none;
 }
 
-.bg-\[\#22293b\].p-4.rounded-lg > * > * {
+.bg-\[\#22293b\].p-4.rounded-lg > * .min-w-\[50px\] {
+  min-width: 22px;
+  margin-right: -10px; 
+}
+
+.bg-\[\#22293b\].p-4.rounded-lg p {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   padding-right: 20px;
-}
-
-.bg-\[\#22293b\].p-4.rounded-lg > *:first-child {
-  background-color: #22293b;
-  border-bottom: none !important;
-}
-.bg-\[\#22293b\].p-4.rounded-lg > a:first-of-type {
-  width: max-content;
-}
-.bg-\[\#22293b\].p-4.rounded-lg > a:first-of-type > .min-w-\[50px\]{
-  padding-right: 0px;
-  margin-right: -2px;
 }
 
 /* Избранные сервера */
