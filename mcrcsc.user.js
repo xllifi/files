@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.17
+// @version      0.0.18
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -123,7 +123,7 @@ if (!unsafeWindow.toggleConsoleExpand) {
 // Загрузка страницы завершена
 //
 
-window.onload = async function () {
+document.addEventListener("DOMContentLoaded", async function () {
     /*    Находим строку с поиском */ const searchBar = document.querySelectorAll('[action="/servers"]')[0].lastElementChild;
     /* Находим панель со вкладками */ const tabsBar = document.getElementsByClassName("min-w-[300px] h-screen bg-[#22293b] fixed top-0 left-0")[0];
     /* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.setAttribute("target", "_blank"); statusMsg.href = 'https://github.com/xllifi/files/raw/main/mcrcsc.user.js'; statusMsg.classList.add(...['text-white', 'statusMsg']);
@@ -196,4 +196,4 @@ window.onload = async function () {
         }
     };
     updateFavServers();
-};
+}, false);
