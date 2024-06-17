@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.14
+// @version      0.0.15
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -110,6 +110,11 @@ if (!unsafeWindow.toggleConsoleExpand) {
 /*   Поиск серверов */ } else if (window.location.href.includes("/servers") && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) {
     console.log('[Патчи] Обнаружена страница поиска: ' + window.location.href);
     document.title = 'Поиск серверов | Админ-панель Minecraft.RENT';
+} else if (window.location.href.includes("/login")) {
+    var loginStyle = `@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');* {margin: 0;padding: 0;left: 0;top: 0;transition: all 0ms;}body {background-color: #1b2230;height: 100vh;}.form-signin {color: #fff;height: 100%;}.form-signin>form {display: flex;flex-direction: column;align-items: center;justify-content: center;width: 100%;gap: 0.25rem;vertical-align: top;}.form-signin>form>img {margin-top: 5rem;content: url(https://minecraft.rent/static/images/af0cdf2928908a72d447.png);width: 5rem;height: 5rem;}.form-signin>form>h1 {font-family: "Roboto";font-weight: 800;font-size: 4rem;margin-bottom: 2rem;}.btn-primary {font-size: 1rem;padding: .5rem 2rem;background-color: #0078eb;border: none;border-bottom: 1px solid #fff2;border-radius: 0.25rem;text-align: center;text-decoration: none;display: inline-block;color: #fff;}.btn-primary:hover {background-color: #0061be;border-bottom: 1px solid #fff3;}.form-group>label {display: none;}.form-control {border-radius: 0.25rem;font-size: 1rem;padding: .5rem;background-color: #2b3342;border: none;}.form-control::placeholder {color: #eee;}.form-control:autofill {border-bottom: 1px solid #fff1;margin-bottom: -1px;background-color: #00f !important;}`
+    var styleSheet = document.createElement("style");
+    styleSheet.textContent = loginStyle;
+    document.head.append(styleSheet);
 } else {
     console.log('[Патчи] Ни одной известной и поддерживаемой ссылки не найдено');
 };
@@ -151,6 +156,14 @@ window.onload = async function () {
     if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}/g) && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.+/g)) { /* Страница информации о сервере */
         /*            Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
         consoleWrapper.appendChild(consoleExpandToggle);
+    } else if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}\/files\?dir.*/g)) {
+        // Изменение иконки вернуться назад
+        const fileList = document.querySelector(".bg-\\[\\#22293b\\].p-4.rounded-lg").children
+        for (let entry of fileList) {
+            if (entry.innerHTML.includes(`<p class="font-bold">Вернуться назад</p>`)) {
+                entry.querySelector(`.min-w-\\[50px\\]`).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="w-[20px]" stroke-width="3"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg>`;
+            }
+        }
     } else if (window.location.href.includes("/servers") && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { /* Страница поиска */
         const resultsTable = document.querySelector("body div div table");
         if (resultsTable != null) {
