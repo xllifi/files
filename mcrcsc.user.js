@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.16
+// @version      0.0.17
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -44,7 +44,7 @@ document.head.appendChild(faviconLink);
 
 /* ========= Функции ========= */
 function updateFavServers() {
-    console.log('updating fav servers')
+    console.log('[Патчи] Началось обновление избранных серверов')
 
     var allAnchorElements = favServerWrapper.childNodes;
     if (favServersArray.length == 0 /*любимых сервров нет*/ && allAnchorElements.length != 0 /*но элементы для них есть*/) {
@@ -132,14 +132,13 @@ window.onload = async function () {
     var response = await fetch('https://xllifi.github.io/files/mcrcsc.user.js?q=' + Math.floor(Math.random() * Math.pow(10, 10)));
     const latest_version = parseInt((await response.text()).match(/(?<=\/\/ @version\s+)[\d\.]+/gm)[0].replaceAll("\.", ""));
     const current_version = parseInt(GM_info.script.version.replaceAll("\.", ""))
-    console.log("[Патчи] Последняя версия: " + latest_version + ", текущая версия: " + current_version)
         if (current_version < latest_version) {
-            console.log('[Патчи] Версия устарела.');
+            console.log('[Патчи] Устаревшая версия');
             statusMsg.textContent = 'Доступно обновление!';
             statusMsg.style.backgroundImage = updateIcon;
             statusMsg.style.backgroundColor = 'rgba(245, 158, 11, 0.5)';
         } else if (current_version > latest_version) {
-            console.log('[Патчи] Версия слишком новая.');
+            console.log('[Патчи] Слишком новая версия');
             statusMsg.textContent = 'Неправильная версия!';
             statusMsg.style.backgroundImage = dblQIcon;
             statusMsg.style.backgroundColor = 'rgba(109, 40, 217, 0.5)';
@@ -158,14 +157,31 @@ window.onload = async function () {
         /*            Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
         consoleWrapper.appendChild(consoleExpandToggle);
     } else if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}\/files\?dir.*/g)) {
-        // Изменение иконки вернуться назад
+        // Замена иконки
         const fileList = document.querySelector(".bg-\\[\\#22293b\\].p-4.rounded-lg").children
         for (let entry of fileList) {
             if (entry.innerHTML.includes(`<p class="font-bold">Вернуться назад</p>`)) {
                 entry.querySelector(`.min-w-\\[50px\\]`).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="w-[20px]" stroke-width="3"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg>`;
             }
         }
+
+        // Замена некорректных ссылок
+        const currentFolder = window.location.href.match(/(?<=.*\?dir=).*$/g);
+        const fileListTitle = document.querySelector(".bg-\\[\\#22293b\\].p-4.rounded-lg").previousElementSibling;
+        if (currentFolder[0] != "/") {
+            console.log("[Патчи] Началась замена некорректных ссылок")
+            for (let item of fileList) {
+                if (item.tagName == "A" && !item.innerHTML.includes(`<p class="font-bold">Вернуться назад</p>`)) {
+                    var hrefAttr = item.getAttribute("href");
+                    var hrefReplaced = hrefAttr.replace(/(?<=.*\?(dir|file)=).*$/g, "") + currentFolder + hrefAttr.replace(/.*\?(dir|file)=/g, "").replace(currentFolder, "").replace(/^1/g, "/");
+                    item.setAttribute("href", hrefReplaced);
+                    console.debug("[Патчи | ОТЛАДКА] Заменяю ссылку \"" + hrefAttr + "\" на \"" + hrefReplaced + "\"");
+                }
+            }
+        }
+        fileListTitle.textContent = fileListTitle.textContent + " ✅";
     } else if (window.location.href.includes("/servers") && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { /* Страница поиска */
+        // Добавление кнопки избранного
         const resultsTable = document.querySelector("body div div table");
         if (resultsTable != null) {
             const searchTableContents = resultsTable.childNodes;
