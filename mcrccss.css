@@ -138,6 +138,19 @@ form.p-4.rounded-lg {
   height: 36px;
 }
 
+.bg-\[\#22293b\].p-4.rounded-lg > * {
+  padding: 0 0.6rem;
+  border-radius: 0.25rem;
+  background-color: #1c2230;
+  border-bottom: solid 1px #fff2;
+  height: 36px;
+}
+
+.bg-\[\#22293b\].p-4.rounded-lg > p {
+  align-content: center;
+  margin: unset;
+}
+
 .bg-\[\#22293b\].p-4.rounded-lg > div:first-of-type {
   background-color: #22293b;
   border-bottom: none;
