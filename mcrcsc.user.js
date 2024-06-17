@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.15
+// @version      0.0.16
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -132,13 +132,14 @@ window.onload = async function () {
     var response = await fetch('https://xllifi.github.io/files/mcrcsc.user.js?q=' + Math.floor(Math.random() * Math.pow(10, 10)));
     const latest_version = parseInt((await response.text()).match(/(?<=\/\/ @version\s+)[\d\.]+/gm)[0].replaceAll("\.", ""));
     const current_version = parseInt(GM_info.script.version.replaceAll("\.", ""))
+    console.log("[Патчи] Последняя версия: " + latest_version + ", текущая версия: " + current_version)
         if (current_version < latest_version) {
-            console.log('[Патчи] Устаревшая версия');
+            console.log('[Патчи] Версия устарела.');
             statusMsg.textContent = 'Доступно обновление!';
             statusMsg.style.backgroundImage = updateIcon;
             statusMsg.style.backgroundColor = 'rgba(245, 158, 11, 0.5)';
         } else if (current_version > latest_version) {
-            console.log('[Патчи] Слишком новая версия');
+            console.log('[Патчи] Версия слишком новая.');
             statusMsg.textContent = 'Неправильная версия!';
             statusMsg.style.backgroundImage = dblQIcon;
             statusMsg.style.backgroundColor = 'rgba(109, 40, 217, 0.5)';
