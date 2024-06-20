@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.18
+// @version      0.0.19
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -20,7 +20,6 @@ var tickIcon   = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/200
 var updateIcon = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/><path d='M3 3v5h5'/><path d='M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16'/><path d='M16 16h5v5'/></svg>")`;
 var dblQIcon   = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.9,6.1c2-2.1,5.4-2.3,7.6-0.3c1.6,1.5,2.1,3.9,1.3,6.1c-1.6,3.3-7.2,2.6-7.2,2.6'/><path d='M13.2,19.6L13.2,19.6'/><path d='M2,9.6c0.1-2.1,2-3.7,4-3.5C7.7,6.2,9,7.3,9.5,8.9c0.6,2.4-2.6,4.7-2.6,4.7'/><path d='M8.2,18.3L8.2,18.3'/></svg>")`;
 
-
 console.log("[Патчи] Скрипт начал работу.");
 
 /* ======== Переменные ======= */
@@ -30,7 +29,8 @@ console.log("[Патчи] Скрипт начал работу.");
 /*  Текст для любимых серверов */ const favServerText = document.createElement('p'); favServerText.textContent = 'Избранные сервера:';
 /*     Кнопка любимого сервера */ const favServer = document.createElement('a');
 /*    Получаем массив серверов */ const favServersJSON = localStorage.getItem("favServersJSON");
-/*                   CSS стиль */ var cssElement = document.createElement('link'); cssElement.rel = 'stylesheet'; document.head.appendChild(cssElement);
+/*               HEAD страницы */ const docHead = document.head || document.getElementsByTagName("HEAD")[0];
+/*                   CSS стиль */ var cssElement = document.createElement('link'); cssElement.rel = 'stylesheet';
 /*                      Иконка */ var faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; faviconLink.setAttribute('href', 'https://minecraft.rent/favicon.ico');
 var favServersArray = [];
 if (favServersJSON != null) {
@@ -38,8 +38,11 @@ if (favServersJSON != null) {
 }
 
 /* ====== Элементы HEAD ====== */
+console.log("[Патчи] Добавляю стили");
+docHead.appendChild(cssElement);
 cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
-document.head.appendChild(faviconLink);
+docHead.appendChild(faviconLink);
+
 
 
 /* ========= Функции ========= */
@@ -164,7 +167,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 entry.querySelector(`.min-w-\\[50px\\]`).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="w-[20px]" stroke-width="3"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg>`;
             }
         }
-
+/*                                              ИСПРАВЛЕНО ОФИЦИАЛЬНО
         // Замена некорректных ссылок
         const currentFolder = window.location.href.match(/(?<=.*\?dir=).*$/g);
         const fileListTitle = document.querySelector(".bg-\\[\\#22293b\\].p-4.rounded-lg").previousElementSibling;
@@ -180,6 +183,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         }
         fileListTitle.textContent = fileListTitle.textContent + " ✅";
+*/
     } else if (window.location.href.includes("/servers") && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { /* Страница поиска */
         // Добавление кнопки избранного
         const resultsTable = document.querySelector("body div div table");
