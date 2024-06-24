@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.19
+// @version      0.0.20
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -36,14 +36,6 @@ var favServersArray = [];
 if (favServersJSON != null) {
     favServersArray = JSON.parse(favServersJSON); // Возвращает массив
 }
-
-/* ====== Элементы HEAD ====== */
-console.log("[Патчи] Добавляю стили");
-docHead.appendChild(cssElement);
-cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
-docHead.appendChild(faviconLink);
-
-
 
 /* ========= Функции ========= */
 function updateFavServers() {
@@ -127,6 +119,12 @@ if (!unsafeWindow.toggleConsoleExpand) {
 //
 
 document.addEventListener("DOMContentLoaded", async function () {
+    /* ====== Элементы HEAD ====== */
+    console.log("[Патчи] Добавляю стили");
+    docHead.appendChild(cssElement);
+    cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
+    docHead.appendChild(faviconLink);
+
     /*    Находим строку с поиском */ const searchBar = document.querySelectorAll('[action="/servers"]')[0].lastElementChild;
     /* Находим панель со вкладками */ const tabsBar = document.getElementsByClassName("min-w-[300px] h-screen bg-[#22293b] fixed top-0 left-0")[0];
     /* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.setAttribute("target", "_blank"); statusMsg.href = 'https://github.com/xllifi/files/raw/main/mcrcsc.user.js'; statusMsg.classList.add(...['text-white', 'statusMsg']);
