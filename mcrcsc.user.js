@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.20
+// @version      0.0.21
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -29,7 +29,6 @@ console.log("[Патчи] Скрипт начал работу.");
 /*  Текст для любимых серверов */ const favServerText = document.createElement('p'); favServerText.textContent = 'Избранные сервера:';
 /*     Кнопка любимого сервера */ const favServer = document.createElement('a');
 /*    Получаем массив серверов */ const favServersJSON = localStorage.getItem("favServersJSON");
-/*               HEAD страницы */ const docHead = document.head || document.getElementsByTagName("HEAD")[0];
 /*                   CSS стиль */ var cssElement = document.createElement('link'); cssElement.rel = 'stylesheet';
 /*                      Иконка */ var faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; faviconLink.setAttribute('href', 'https://minecraft.rent/favicon.ico');
 var favServersArray = [];
@@ -120,6 +119,7 @@ if (!unsafeWindow.toggleConsoleExpand) {
 
 document.addEventListener("DOMContentLoaded", async function () {
     /* ====== Элементы HEAD ====== */
+    const docHead = document.head || document.getElementsByTagName("HEAD")[0];
     console.log("[Патчи] Добавляю стили");
     docHead.appendChild(cssElement);
     cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
