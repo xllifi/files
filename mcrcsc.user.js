@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.22
+// @version      0.0.23
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
-// @exclude      https://my.minerent.net/*
 // @exclude      https://minerent.net/*
 // @icon         https://minerent.net/favicon.ico
 // @grant        unsafeWindow
@@ -88,13 +87,21 @@ function toggleConsoleExpand() {
 };
 function randomString() {
     return Math.floor(Math.random() * Math.pow(10, 10));
-}
+};
+function askAdminIP() {
+    while ([null, undefined, '', "null"].includes(localStorage.getItem("adminSubDomain"))) {
+        localStorage.setItem("adminSubDomain", prompt('Введите субдомен админ-панели. Он вводится один раз, а хранится в «локальном хранилище» сайта my.minerent.net'));
+    };
+};
 
 if (!unsafeWindow.favClicked) {
     unsafeWindow.favClicked = favClicked;
 }
 if (!unsafeWindow.toggleConsoleExpand) {
     unsafeWindow.toggleConsoleExpand = toggleConsoleExpand;
+}
+if (!unsafeWindow.askAdminIP) {
+    unsafeWindow.askAdminIP = askAdminIP;
 }
 
 //
@@ -121,87 +128,108 @@ if (!unsafeWindow.toggleConsoleExpand) {
 //
 
 document.addEventListener("DOMContentLoaded", async function () {
-    /* ====== Элементы HEAD ====== */
-    const docHead = document.head || document.getElementsByTagName("HEAD")[0];
-    console.log("[Патчи] Добавляю стили");
-    docHead.appendChild(cssElement);
-    cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + randomString();
-    docHead.appendChild(faviconLink);
+    if (!window.location.href.includes("my.minerent")) { // Действия с админкой
+        /* ====== Элементы HEAD ====== */
+        const docHead = document.head || document.getElementsByTagName("HEAD")[0];
+        console.log("[Патчи] Добавляю стили");
+        docHead.appendChild(cssElement);
+        cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + randomString();
+        docHead.appendChild(faviconLink);
 
-    /*    Находим строку с поиском */ const searchBar = document.querySelectorAll('[action="/servers"]')[0].lastElementChild;
-    /* Находим панель со вкладками */ const tabsBar = document.getElementsByClassName("min-w-[300px] h-screen bg-[#22293b] fixed top-0 left-0")[0];
-    /* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.setAttribute("target", "_blank"); statusMsg.href = 'https://github.com/xllifi/files/raw/main/mcrcsc.user.js'; statusMsg.classList.add(...['text-white', 'statusMsg']);
+        /*    Находим строку с поиском */ const searchBar = document.querySelectorAll('[action="/servers"]')[0].lastElementChild;
+        /* Находим панель со вкладками */ const tabsBar = document.getElementsByClassName("min-w-[300px] h-screen bg-[#22293b] fixed top-0 left-0")[0];
+        /* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.setAttribute("target", "_blank"); statusMsg.href = 'https://github.com/xllifi/files/raw/main/mcrcsc.user.js'; statusMsg.classList.add(...['text-white', 'statusMsg']);
 
-    /* ===== Проверка версии ===== */
-    var response = await fetch('https://xllifi.github.io/files/mcrcsc.user.js?q=' + randomString());
-    const latest_version = parseInt((await response.text()).match(/(?<=\/\/ @version\s+)[\d\.]+/gm)[0].replaceAll("\.", ""));
-    const current_version = parseInt(GM_info.script.version.replaceAll("\.", ""))
-        if (current_version < latest_version) {
-            console.log('[Патчи] Устаревшая версия');
-            statusMsg.textContent = 'Доступно обновление!';
-            statusMsg.style.backgroundImage = updateIcon;
-            statusMsg.style.backgroundColor = 'rgba(245, 158, 11, 0.5)';
-        } else if (current_version > latest_version) {
-            console.log('[Патчи] Слишком новая версия');
-            statusMsg.textContent = 'Неправильная версия!';
-            statusMsg.style.backgroundImage = dblQIcon;
-            statusMsg.style.backgroundColor = 'rgba(109, 40, 217, 0.5)';
-        } else {
-            statusMsg.textContent = 'Обновлений не найдено';
-            statusMsg.style.backgroundImage = tickIcon;
-            statusMsg.style.backgroundColor = 'rgba(34, 197, 94, 0.5)';
+        /* ===== Проверка версии ===== */
+        var response = await fetch('https://xllifi.github.io/files/mcrcsc.user.js?q=' + randomString());
+        const latest_version = parseInt((await response.text()).match(/(?<=\/\/ @version\s+)[\d\.]+/gm)[0].replaceAll("\.", ""));
+        const current_version = parseInt(GM_info.script.version.replaceAll("\.", ""))
+            if (current_version < latest_version) {
+                console.log('[Патчи] Устаревшая версия');
+                statusMsg.textContent = 'Доступно обновление!';
+                statusMsg.style.backgroundImage = updateIcon;
+                statusMsg.style.backgroundColor = 'rgba(245, 158, 11, 0.5)';
+            } else if (current_version > latest_version) {
+                console.log('[Патчи] Слишком новая версия');
+                statusMsg.textContent = 'Неправильная версия!';
+                statusMsg.style.backgroundImage = dblQIcon;
+                statusMsg.style.backgroundColor = 'rgba(109, 40, 217, 0.5)';
+            } else {
+                statusMsg.textContent = 'Обновлений не найдено';
+                statusMsg.style.backgroundImage = tickIcon;
+                statusMsg.style.backgroundColor = 'rgba(34, 197, 94, 0.5)';
+            }
+
+        tabsBar.appendChild(statusMsg);
+
+        searchBar.append(favServerWrapper);
+
+        if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { // Любая страница управления сервером
+            document.querySelector('[href*=transfer]').href = document.querySelector('[href*=transfer]').href + "?node=5";
         }
+        if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}/g) && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.+/g)) { // Главная страница
+            /*            Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
+            consoleWrapper.appendChild(consoleExpandToggle);
+        } else if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}\/files\?dir.*/g)) { // Файлы сервера
+            // Замена иконки
+            const fileList = document.querySelector(".bg-\\[\\#22293b\\].p-4.rounded-lg").children
+            for (let entry of fileList) {
+                if (entry.innerHTML.includes(`<p class="font-bold">Вернуться назад</p>`)) {
+                    entry.querySelector(`.min-w-\\[50px\\]`).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="w-[20px]" stroke-width="3"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg>`;
+                }
+            }
+        /*    =======================     ИСПРАВЛЕНО ОФИЦИАЛЬНО
+            // Замена некорректных ссылок
+            const currentFolder = window.location.href.match(/(?<=.*\?dir=).*$/g);
+            const fileListTitle = document.querySelector(".bg-\\[\\#22293b\\].p-4.rounded-lg").previousElementSibling;
+            if (currentFolder[0] != "/") {
+                console.log("[Патчи] Началась замена некорректных ссылок")
+                for (let item of fileList) {
+                    if (item.tagName == "A" && !item.innerHTML.includes(`<p class="font-bold">Вернуться назад</p>`)) {
+                        var hrefAttr = item.getAttribute("href");
+                        var hrefReplaced = hrefAttr.replace(/(?<=.*\?(dir|file)=).*$/g, "") + currentFolder + hrefAttr.replace(/.*\?(dir|file)=/g, "").replace(currentFolder, "").replace(/^1/g, "/");
+                        item.setAttribute("href", hrefReplaced);
+                        console.debug("[Патчи | ОТЛАДКА] Заменяю ссылку \"" + hrefAttr + "\" на \"" + hrefReplaced + "\"");
+                    }
+                }
+            }
+            fileListTitle.textContent = fileListTitle.textContent + " ✅";*/
+        } else if (window.location.href.includes("/servers") && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { /* Страница поиска */
+            // Добавление кнопки избранного
+            const resultsTable = document.querySelector("body div div table");
+            if (resultsTable != null) {
+                const searchTableContents = resultsTable.childNodes;
+                const favButton = document.createElement('button'); favButton.setAttribute("onclick", "favClicked(this)");
+                for (var i = 0, arr = resultsTable.childNodes; i < arr.length; i++) {
+                    if (searchTableContents[i].tagName == "TBODY" && searchTableContents[i].lastElementChild.firstElementChild.firstElementChild.textContent == "UUID") {
+                        var uuidEl = searchTableContents[i].lastElementChild.firstElementChild;
+                        uuidEl.insertBefore(favButton.cloneNode(true), uuidEl.firstElementChild);
+                        console.log('[Патчи] Кнопка "Избранное" добавлена к серверу ' + searchTableContents[i].lastElementChild.firstElementChild.lastChild.textContent.replace(/("|\n|\W)/gm, ""));
+                    }
+                }
+            }
+        };
+        updateFavServers();
+    } else if (window.location.href.includes("my.minerent")) { // Действия с обычной ПУ
+        if (window.location.href.match(/.+server\/[\da-zA-Z]{8}.*/g)) {
+            console.log("[Патчи] Добавляю кнопки перехода в админку")
+            askAdminIP()
 
-    tabsBar.appendChild(statusMsg);
+            const buttonsHolder = document.querySelector(".panelSubmenu").children[0].children[0];
 
-    searchBar.append(favServerWrapper);
+            const buttonOpenInAdmin = document.createElement("A");
+            buttonOpenInAdmin.classList.add("panelSubmenuLink");
+            buttonOpenInAdmin.href = "https://" + localStorage.getItem("adminSubDomain") + ".minerent.net/servers/" + window.location.href.match(/.+server\/([\da-zA-Z]{8}).*/)[1];
+            buttonOpenInAdmin.innerHTML = "Открыть в админке";
 
-    if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { // Любая страница управления сервером
-        document.querySelector('[href*=transfer]').href = document.querySelector('[href*=transfer]').href + "?node=5";
+            buttonsHolder.appendChild(buttonOpenInAdmin);
+
+            const buttonChangeAdminIP = document.createElement("BUTTON");
+            buttonChangeAdminIP.classList.add("panelSubmenuLink");
+            buttonChangeAdminIP.setAttribute("onclick", "localStorage.clear(\"adminSubDomain\"); askAdminIP()");
+            buttonChangeAdminIP.innerHTML = "Сменить IP админки";
+            
+            buttonsHolder.appendChild(buttonChangeAdminIP);
+        }
     }
-
-    if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}/g) && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.+/g)) { // Главная страница
-        /*            Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
-        consoleWrapper.appendChild(consoleExpandToggle);
-    } else if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}\/files\?dir.*/g)) { // Файлы сервера
-        // Замена иконки
-        const fileList = document.querySelector(".bg-\\[\\#22293b\\].p-4.rounded-lg").children
-        for (let entry of fileList) {
-            if (entry.innerHTML.includes(`<p class="font-bold">Вернуться назад</p>`)) {
-                entry.querySelector(`.min-w-\\[50px\\]`).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="w-[20px]" stroke-width="3"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg>`;
-            }
-        }
-/*                                              ИСПРАВЛЕНО ОФИЦИАЛЬНО
-        // Замена некорректных ссылок
-        const currentFolder = window.location.href.match(/(?<=.*\?dir=).*$/g);
-        const fileListTitle = document.querySelector(".bg-\\[\\#22293b\\].p-4.rounded-lg").previousElementSibling;
-        if (currentFolder[0] != "/") {
-            console.log("[Патчи] Началась замена некорректных ссылок")
-            for (let item of fileList) {
-                if (item.tagName == "A" && !item.innerHTML.includes(`<p class="font-bold">Вернуться назад</p>`)) {
-                    var hrefAttr = item.getAttribute("href");
-                    var hrefReplaced = hrefAttr.replace(/(?<=.*\?(dir|file)=).*$/g, "") + currentFolder + hrefAttr.replace(/.*\?(dir|file)=/g, "").replace(currentFolder, "").replace(/^1/g, "/");
-                    item.setAttribute("href", hrefReplaced);
-                    console.debug("[Патчи | ОТЛАДКА] Заменяю ссылку \"" + hrefAttr + "\" на \"" + hrefReplaced + "\"");
-                }
-            }
-        }
-        fileListTitle.textContent = fileListTitle.textContent + " ✅";
-*/
-    } else if (window.location.href.includes("/servers") && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { /* Страница поиска */
-        // Добавление кнопки избранного
-        const resultsTable = document.querySelector("body div div table");
-        if (resultsTable != null) {
-            const searchTableContents = resultsTable.childNodes;
-            const favButton = document.createElement('button'); favButton.setAttribute("onclick", "favClicked(this)");
-            for (var i = 0, arr = resultsTable.childNodes; i < arr.length; i++) {
-                if (searchTableContents[i].tagName == "TBODY" && searchTableContents[i].lastElementChild.firstElementChild.firstElementChild.textContent == "UUID") {
-                    var uuidEl = searchTableContents[i].lastElementChild.firstElementChild;
-                    uuidEl.insertBefore(favButton.cloneNode(true), uuidEl.firstElementChild);
-                    console.log('[Патчи] Кнопка "Избранное" добавлена к серверу ' + searchTableContents[i].lastElementChild.firstElementChild.lastChild.textContent.replace(/("|\n|\W)/gm, ""))
-                }
-            }
-        }
-    };
-    updateFavServers();
 }, false);
