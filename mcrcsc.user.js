@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.21
+// @version      0.0.22
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -86,6 +86,9 @@ function toggleConsoleExpand() {
         consoleWrapper.parentElement.insertBefore(consoleHeightHolder, consoleWrapper.nextElementSibling); consoleWrapper.style.animation = 'consoleExpand 200ms';
     }
 };
+function randomString() {
+    return Math.floor(Math.random() * Math.pow(10, 10));
+}
 
 if (!unsafeWindow.favClicked) {
     unsafeWindow.favClicked = favClicked;
@@ -122,7 +125,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const docHead = document.head || document.getElementsByTagName("HEAD")[0];
     console.log("[Патчи] Добавляю стили");
     docHead.appendChild(cssElement);
-    cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
+    cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + randomString();
     docHead.appendChild(faviconLink);
 
     /*    Находим строку с поиском */ const searchBar = document.querySelectorAll('[action="/servers"]')[0].lastElementChild;
@@ -130,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     /* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.setAttribute("target", "_blank"); statusMsg.href = 'https://github.com/xllifi/files/raw/main/mcrcsc.user.js'; statusMsg.classList.add(...['text-white', 'statusMsg']);
 
     /* ===== Проверка версии ===== */
-    var response = await fetch('https://xllifi.github.io/files/mcrcsc.user.js?q=' + Math.floor(Math.random() * Math.pow(10, 10)));
+    var response = await fetch('https://xllifi.github.io/files/mcrcsc.user.js?q=' + randomString());
     const latest_version = parseInt((await response.text()).match(/(?<=\/\/ @version\s+)[\d\.]+/gm)[0].replaceAll("\.", ""));
     const current_version = parseInt(GM_info.script.version.replaceAll("\.", ""))
         if (current_version < latest_version) {
@@ -152,12 +155,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     tabsBar.appendChild(statusMsg);
 
     searchBar.append(favServerWrapper);
-    // console.log(favServersJSON + "\n" + favServersArray.length + "\n" + document.getElementById("favServerWrapper").firstChild + "\n");
 
-    if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}/g) && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.+/g)) { /* Страница информации о сервере */
+    if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { // Любая страница управления сервером
+        document.querySelector('[href*=transfer]').href = document.querySelector('[href*=transfer]').href + "?node=5";
+    }
+
+    if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}/g) && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.+/g)) { // Главная страница
         /*            Находим элемент консоли */ const consoleWrapper = document.getElementById('console-scroll');
         consoleWrapper.appendChild(consoleExpandToggle);
-    } else if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}\/files\?dir.*/g)) {
+    } else if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}\/files\?dir.*/g)) { // Файлы сервера
         // Замена иконки
         const fileList = document.querySelector(".bg-\\[\\#22293b\\].p-4.rounded-lg").children
         for (let entry of fileList) {
