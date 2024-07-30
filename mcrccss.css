@@ -309,6 +309,13 @@ body {
     background-color: #00f !important;
 }
 
+/* TODO найти подходяющую категорию */
+.w-full.h-\[60px\].bg-\[\#22293b\].rounded-lg.flex.items-center.gap-6.px-6 {
+  flex-wrap: wrap;
+  height: max-content;
+  padding: 10px;
+}
+
 /* мобилка */
 @media (max-width: 600px) {
   .p-6.w-full.grid.grid-cols-2.gap-\[50px\] {
