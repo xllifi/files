@@ -345,6 +345,9 @@ body {
   .consoleButton.expand, #favServerWrapper {
     display: none
   }
+  .consoleButton.scroll {
+    transform: scale(150%) translate(-.25rem, -.25rem)
+  }
   .min-w-\[300px\].h-screen {
     display: none;
     width: 0;
