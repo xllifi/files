@@ -308,3 +308,22 @@ body {
     margin-bottom: -1px;
     background-color: #00f !important;
 }
+
+/* мобилка */
+@media (max-width: 600px) {
+  .p-6.w-full.grid.grid-cols-2.gap-\[50px\] {
+    grid-template-rows: auto;
+    grid-template-columns: unset;
+    gap: 1rem;
+  }
+  .p-6.w-full.grid.grid-cols-2.gap-\[50px\] > * {
+    max-width: 90dvw
+  }
+  .consoleExpandToggle, #favServerWrapper {
+    display: none
+  }
+  .min-w-\[300px\].h-screen {
+    display: none;
+    width: 0;
+  }
+}
