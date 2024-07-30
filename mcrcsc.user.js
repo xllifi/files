@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.23
+// @version      0.0.24
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -107,6 +107,14 @@ if (!unsafeWindow.askAdminIP) {
 //
 // Загрузка страницы началась
 //
+
+if (!window.location.href.includes("my.minerent")) {
+    const hideallwbgStyle = document.createElement("STYLE");
+    document.head.append(hideallwbgStyle);
+    hideallwbgStyle.innerHTML = ".smoothreveal > * { animation: smoothreveal 800ms; } @keyframes smoothreveal { from {opacity: 0} to {opacity: 1} } .hideallwbg { background: #1c2230; } .hideallwbg > * { opacity: 0; }";
+
+    document.querySelector("html").classList.add("hideallwbg");
+}
 
 /* Страница сервера */ if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) {
     console.log('[Патчи] Обнаружена страница управления сервером: ' + window.location.href);
@@ -228,8 +236,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             buttonChangeAdminIP.classList.add("panelSubmenuLink");
             buttonChangeAdminIP.setAttribute("onclick", "localStorage.clear(\"adminSubDomain\"); askAdminIP()");
             buttonChangeAdminIP.innerHTML = "Сменить IP админки";
-            
+
             buttonsHolder.appendChild(buttonChangeAdminIP);
         }
     }
 }, false);
+
+window.onload = function() {
+    if (!window.location.href.includes("my.minerent")) {
+        setTimeout(() => {
+            document.querySelector("html").classList.add("smoothreveal");
+            document.querySelector("html").classList.remove("hideallwbg");
+        }, 500);
+    }
+}
+
