@@ -90,35 +90,55 @@ div:has(> div#console).expanded {
 }
 
 /* Панель "Нагрузка на ноды" */
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\] {
+  grid-template-rows: auto;
+  grid-template-columns: unset;
+  gap: 1rem;
+}
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child {
+  width: max-content;
+}
+
 .p-4.rounded-lg.flex.flex-col {
+  width: max-content;
   padding: 0 !important;
 }
 .p-4.rounded-lg.flex.flex-col > * {
   flex: 1 1 60px !important;
 }
-.grid.grid-cols-6.items-center.px-4.justify-between[class*=" "]:nth-child(even) {
+.grid.grid-cols-6.items-center.px-4.justify-between:first-child {
+  border-radius: .5rem .5rem 0 0;
+  background-color: transparent;
+}
+.grid.grid-cols-6.items-center.px-4.justify-between:last-child {
+  border-radius: 0 0 .5rem .5rem;
+}
+.grid.grid-cols-6.items-center.px-4.justify-between:nth-child(even) {
   background-color: #fff1 !important;
 }
-.grid.grid-cols-6.items-center.px-4.justify-between[class*=" "]:nth-child(even)[class*="bg-green-500/[.05]"] {
+.grid.grid-cols-6.items-center.px-4.justify-between:nth-child(even):hover {
+  background-color: #ffffff1a !important;
+}
+.grid.grid-cols-6.items-center.px-4.justify-between:nth-child(even)[class*="bg-green-500/[.05]"] {
   background-color: #0f01 !important;
 }
 
 /* Панель "Перенос сервера" */
-.flex.items-end {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child > form .flex.items-end {
   flex-wrap: wrap;
   gap: 0.25rem;
   padding: 0;
 }
-.flex.items-end > div:has(select) {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child > form .flex.items-end > div:has(select) {
   padding: 0.5rem;
   background-color: #fff1;
   border-radius: 5px;
   flex-grow: 1;
 }
-.flex.items-end > div:has(button) {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child > form .flex.items-end > div:has(button) {
   margin-bottom: auto;
 }
-form.p-4.rounded-lg {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child > form {
   padding: 0.5rem !important;
 }
 
