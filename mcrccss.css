@@ -90,12 +90,12 @@ div:has(> div#console).expanded {
 }
 
 /* Панель "Нагрузка на ноды" */
-.p-6.w-full.grid.grid-cols-2.gap-\[50px\] {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\]:has(div:first-child > form .flex.items-end) {
   grid-template-rows: auto;
   grid-template-columns: unset;
   gap: 1rem;
 }
-.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\]:has(div:first-child > form .flex.items-end) > div:first-child {
   width: max-content;
 }
 
@@ -124,21 +124,21 @@ div:has(> div#console).expanded {
 }
 
 /* Панель "Перенос сервера" */
-.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child > form .flex.items-end {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\]:has(div:first-child > form .flex.items-end) > div:first-child > form .flex.items-end {
   flex-wrap: wrap;
   gap: 0.25rem;
   padding: 0;
 }
-.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child > form .flex.items-end > div:has(select) {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\]:has(div:first-child > form .flex.items-end) > div:first-child > form .flex.items-end > div:has(select) {
   padding: 0.5rem;
   background-color: #fff1;
   border-radius: 5px;
   flex-grow: 1;
 }
-.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child > form .flex.items-end > div:has(button) {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\]:has(div:first-child > form .flex.items-end) > div:first-child > form .flex.items-end > div:has(button) {
   margin-bottom: auto;
 }
-.p-6.w-full.grid.grid-cols-2.gap-\[50px\] > div:first-child > form {
+.p-6.w-full.grid.grid-cols-2.gap-\[50px\]:has(div:first-child > form .flex.items-end) > div:first-child > form {
   padding: 0.5rem !important;
 }
 
