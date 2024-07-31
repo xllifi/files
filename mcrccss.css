@@ -79,6 +79,13 @@
   height: 2rem;
   width: 2rem;
 }
+.min-w-\[300px\].h-screen.bg-\[\#22293b\].fixed.top-0.left-0::after {
+  position: absolute;
+  content: "";
+  width: 6rem;
+  height: 10rem;
+  background: linear-gradient(rgba(34,41,59,1) 50%, rgba(34,41,59,0) 100%);
+}
 
 /* Кнопка "Перейти" */
 td:has(a[href*=\/servers\/]) {
