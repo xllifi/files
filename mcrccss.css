@@ -38,6 +38,7 @@
   min-width: max-content;
   position: unset;
   width: max-content;
+  height: 100%;
 }
 .min-w-\[300px\].h-screen.bg-\[\#22293b\].fixed.top-0.left-0 > div.px-8 {
   padding-left: 1.5rem !important;
