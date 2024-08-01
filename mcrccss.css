@@ -1,18 +1,3 @@
-.consoleButton {
-  position: absolute;
-  left: unset;
-  right: 2rem;
-  width: 1.75rem;
-  height: 1.75rem;
-}
-.consoleButton.expand {
-  top: 2rem;
-}
-.consoleButton.scroll {
-  bottom: 2rem;
-  top: unset;
-}
-
 /* Сообщение о статусе */
 .updateAvaliable {
   background-color: rgba(245, 158, 11, 0.5);
@@ -160,13 +145,19 @@ div:has(> div#console).expanded {
   transition: filter 200ms;
   animation: consoleExpand 200ms;
 }
-.consoleExpandToggle {
+.consoleButton {
   position: absolute;
   left: unset;
   right: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+.consoleButton.expand {
   top: 2rem;
-  width: 1.5rem;
-  height: 1.5rem;
+}
+.consoleButton.scroll {
+  bottom: 2rem;
+  top: unset;
 }
 
 /* Панель "Нагрузка на ноды" */
