@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.30
+// @version      0.0.31
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -155,11 +155,29 @@ if (!unsafeWindow.toggleMenu) {
 //
 
 if (!window.location.href.includes("my.minerent")) {
-    const hideallwbgStyle = document.createElement("STYLE");
-    document.head.append(hideallwbgStyle);
-    hideallwbgStyle.innerHTML = ".smoothreveal > * { animation: smoothreveal 800ms; } @keyframes smoothreveal { from {opacity: 0} to {opacity: 1} } .hideallwbg { background: #1c2230; } .hideallwbg > * { opacity: 0; }";
+    try {
+        console.log('[Патчи] Пытаюсь применить стиль загрузки')
+        const hideallwbgStyle = document.createElement("STYLE");
+        document.head.append(hideallwbgStyle);
+        hideallwbgStyle.innerHTML = ".smoothreveal > * { animation: smoothreveal 800ms; } @keyframes smoothreveal { from {opacity: 0} to {opacity: 1} } .hideallwbg { background: #1c2230; } .hideallwbg > * { opacity: 0; }";
 
-    document.querySelector("html").classList.add("hideallwbg");
+        document.querySelector("html").classList.add("hideallwbg");
+    } catch (e) {
+        console.log('[Патчи] Не удалось применить стиль загрузки, пробую ещё раз...')
+        setTimeout(() => {
+            try {
+                console.log('[Патчи] Пытаюсь применить стиль загрузки')
+                const hideallwbgStyle = document.createElement("STYLE");
+                document.head.append(hideallwbgStyle);
+                hideallwbgStyle.innerHTML = ".smoothreveal > * { animation: smoothreveal 800ms; } @keyframes smoothreveal { from {opacity: 0} to {opacity: 1} } .hideallwbg { background: #1c2230; } .hideallwbg > * { opacity: 0; }";
+
+                document.querySelector("html").classList.add("hideallwbg");
+            } catch (e) {
+                console.log('[Патчи] Не удалось применить стиль загрузки:')
+                console.log(e)
+            }
+        }, 20)
+    }
 }
 
 /* Страница сервера */ if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) {
