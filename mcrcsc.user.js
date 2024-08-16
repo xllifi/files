@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.31
+// @version      0.0.32
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         tabsBar.querySelectorAll('a').forEach(function(node) { // Удаление текста с кнопок сайдбара
         	node.innerHTML = ""
         })
-        tabsBar.querySelector('div.w-full.flex.items-center.px-8.my-6 > p.text-lg.text-white.font-bold.pl-\\[25px\\]').remove() // Удаление текста "Админ панель"
+        tabsBar.querySelector('div.w-full.flex.items-center.px-8.my-6 > p.text-sm.text-white.font-bold.pl-\\[25px\\]').remove() // Удаление текста "Админ панель"
         tabsBar.parentElement.prepend(closeMenuElement);
 
         if (!window.location.href.includes("status")) {
