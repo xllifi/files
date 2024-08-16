@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.28
+// @version      0.0.29
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -126,7 +126,7 @@ function askAdminIP() {
     };
 };
 function toggleMenu() {
-    const tabsBar = document.querySelector('.min-w-\\[300px\\].h-screen.bg-\\[\\#22293b\\].fixed.top-0.left-0');
+    const tabsBar = document.querySelector('.min-w-\\[250px\\].h-screen.bg-\\[\\#22293b\\].fixed.top-0.left-0');
     if (!tabsBar.classList.contains("enabled") && !closeMenuElement.classList.contains("enabled")) {
         tabsBar.classList.add('enabled'); closeMenuElement.classList.add('enabled');
     } else {
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + randomString();
         docHead.appendChild(faviconLink);
 
-        /* Находим панель со вкладками */ const tabsBar = document.querySelector('.min-w-\\[300px\\].h-screen.bg-\\[\\#22293b\\].fixed.top-0.left-0');
+        /* Находим панель со вкладками */ const tabsBar = document.querySelector('.min-w-\\[250px\\].h-screen.bg-\\[\\#22293b\\].fixed.top-0.left-0');
         /* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.target = "_blank"; statusMsg.href = 'https://github.com/xllifi/files/raw/main/mcrcsc.user.js'; statusMsg.classList.add(...['w-full', 'h-[52px]', 'flex', 'items-center', 'text-white', 'px-8', 'hover:bg-white/[.03]']);
 
         /* ===== Проверка версии ===== */
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.log(e);
         };
 
-        document.querySelectorAll('.min-w-\\[300px\\].h-screen')[1].remove(); // Удаление скрытого элемента сайдбара
+        document.querySelectorAll('.min-w-\\[250px\\].h-screen')[1].remove(); // Удаление скрытого элемента сайдбара
         tabsBar.querySelectorAll('a').forEach(function(node) { // Удаление текста с кнопок сайдбара
         	node.innerHTML = ""
         })
