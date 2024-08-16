@@ -329,14 +329,14 @@ button[onclick="favClicked(this)"] {
   .consoleButton.scroll {
     transform: scale(150%) translate(-.25rem, -.25rem)
   }
-  .min-w-\[300px\].h-screen {
+  .min-w-\[250px\].h-screen {
     position: fixed !important;
     filter: drop-shadow(0 0 30px #0008);
     display: none;
     opacity: 0;
     z-index: 5;
   }
-  .min-w-\[300px\].h-screen.enabled, #closeMenu.enabled {
+  .min-w-\[250px\].h-screen.enabled, #closeMenu.enabled {
     display: unset !important;
     opacity: 1;
   }
