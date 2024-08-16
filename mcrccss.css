@@ -321,6 +321,9 @@ button[onclick="favClicked(this)"] {
   div.p-6.w-full.flex.gap-\[25px\].relative > div {
     min-width: 88dvw;
   }
+  div.p-6.w-full.flex.gap-\[25px\].relative > div > div:is(:nth-child(2), :nth-child(3)) {
+    display: none;
+  }
   .bg-\[\#22293b\].p-4.rounded-lg > * :is(:nth-child(3), :nth-child(4)) {
     display: none;
   }
