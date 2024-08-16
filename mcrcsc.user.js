@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.29
+// @version      0.0.30
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -80,7 +80,7 @@ function toggleConsoleExpand() {
     const consoleWrapper = document.querySelector('#console-scroll');
     var consoleWrapperClasses = consoleWrapper.className;
     if (consoleWrapperClasses.includes("expanded")) {
-        consoleWrapper.classList.remove('expanded'); consoleWrapper.style.width = null; consoleWrapper.style.height = null; consoleWrapper.style.animation = 'consoleShrink 200ms';
+        consoleWrapper.classList.remove('expanded'); consoleWrapper.style.width = null; consoleWrapper.style.height = "calc(100vh - 230px)"; consoleWrapper.style.animation = 'consoleShrink 200ms';
 
         consoleExpandToggle.style.backgroundImage = expandIcon;
 
