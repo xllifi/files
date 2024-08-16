@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.32
+// @version      0.0.33
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -34,7 +34,6 @@ console.log("[Патчи] Скрипт начал работу.");
 /*     Кнопка любимого сервера */ const favServer = document.createElement('a');
 /*    Получаем массив серверов */ const favServersJSON = localStorage.getItem("favServersJSON");
 /*                   CSS стиль */ var cssElement = document.createElement('link'); cssElement.rel = 'stylesheet';
-/*                      Иконка */ var faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; faviconLink.setAttribute('href', 'https://minecraft.rent/favicon.ico');
 /*      Проматывать ли консоль */ var scrollConsole = false;
 /*       Элемент закрытия меню */ const closeMenuElement = document.createElement('button'); closeMenuElement.id = "closeMenu"; closeMenuElement.setAttribute("onclick", "toggleMenu()");
 /*        Кнопка открытия меню */ const hamburgerButton = document.createElement('a'); hamburgerButton.id = "hamburgerMenuButton"; hamburgerButton.setAttribute("onclick", "toggleMenu()");
@@ -201,7 +200,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("[Патчи] Добавляю стили");
         docHead.appendChild(cssElement);
         cssElement.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + randomString();
-        docHead.appendChild(faviconLink);
 
         /* Находим панель со вкладками */ const tabsBar = document.querySelector('.min-w-\\[250px\\].h-screen.bg-\\[\\#22293b\\].fixed.top-0.left-0');
         /* Создаём элемент со статусом */ const statusMsg = document.createElement('a'); statusMsg.target = "_blank"; statusMsg.href = 'https://github.com/xllifi/files/raw/main/mcrcsc.user.js'; statusMsg.classList.add(...['w-full', 'h-[52px]', 'flex', 'items-center', 'text-white', 'px-8', 'hover:bg-white/[.03]']);
