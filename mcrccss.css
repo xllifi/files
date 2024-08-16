@@ -121,6 +121,7 @@ div#console, p#latestlog {
   border-radius: 1.2rem !important;
   white-space: nowrap;
   overflow: auto;
+  width: 100%;
 }
 div#console * {
   font-family: inherit;
