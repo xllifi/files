@@ -314,14 +314,15 @@ button[onclick="favClicked(this)"] {
 }
 
 /* Мобилка */
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   div.p-6.w-full.flex.gap-\[25px\].relative {
     flex-direction: column;
   }
   div.p-6.w-full.flex.gap-\[25px\].relative > div {
-    min-width: 88dvw;
+    min-width: 88dvw !important;
+    width: 88dvw !important;
   }
-  div.p-6.w-full.flex.gap-\[25px\].relative > div > div:is(:nth-child(2), :nth-child(3)) {
+  div.p-6.w-full.flex.gap-\[25px\].relative > div:first-child > div:is(:nth-child(2), :nth-child(3)) {
     display: none;
   }
   .bg-\[\#22293b\].p-4.rounded-lg > * :is(:nth-child(3), :nth-child(4)) {
@@ -335,6 +336,17 @@ button[onclick="favClicked(this)"] {
   }
   .consoleButton.scroll {
     transform: scale(150%) translate(-.25rem, -.25rem)
+  }
+  .min-w-\[250px\].h-screen {
+    position: fixed !important;
+    filter: drop-shadow(0 0 30px #0008);
+    display: none;
+    opacity: 0;
+    z-index: 5;
+  }
+  .min-w-\[250px\].h-screen.enabled, #closeMenu.enabled {
+    display: unset !important;
+    opacity: 1;
   }
   .min-w-\[250px\].h-screen {
     position: fixed !important;
