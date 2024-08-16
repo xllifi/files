@@ -224,7 +224,7 @@ div:has(> div#console).expanded {
   gap: 0.25rem;
 }
 
-.bg-\[\#22293b\].p-4.rounded-lg > *[href*="/files"] {
+.bg-\[\#22293b\].p-4.rounded-lg > :is(*:has(*[href*="/files"]), *[href*="/files"]) {
   padding: 0 0.6rem;
   border-radius: 0.25rem;
   background-color: #1c2230;
@@ -315,13 +315,17 @@ button[onclick="favClicked(this)"] {
 
 /* Мобилка */
 @media (max-width: 600px) {
-  .p-6.w-full.grid.grid-cols-2.gap-\[50px\] {
-    grid-template-rows: auto;
-    grid-template-columns: unset;
-    gap: 1rem;
+  div.p-6.w-full.flex.gap-\[25px\].relative {
+    flex-direction: column;
   }
-  .p-6.w-full.grid.grid-cols-2.gap-\[50px\] > * {
-    max-width: 90dvw
+  div.p-6.w-full.flex.gap-\[25px\].relative > div {
+    min-width: 88dvw;
+  }
+  .bg-\[\#22293b\].p-4.rounded-lg > * :is(:nth-child(3), :nth-child(4)) {
+    display: none;
+  }
+  .bg-\[\#22293b\].p-4.rounded-lg > * {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
   .consoleButton.expand, #favServerWrapper {
     display: none
