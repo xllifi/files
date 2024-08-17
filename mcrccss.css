@@ -117,11 +117,11 @@ div#console, p#latestlog {
   font-family: "Cascadia Code", monospace !important;
   padding: 0.25rem !important;
   background-color: #1c2230;
-  border: solid 1rem #22293b !important;
-  border-radius: 1.2rem !important;
   white-space: nowrap;
   overflow: auto;
   width: 100%;
+  margin: 1rem;
+  height: calc(100% - 2rem);
 }
 div#console * {
   font-family: inherit;
