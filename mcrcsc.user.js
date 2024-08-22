@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.34
+// @version      0.0.35
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { // Любая страница управления сервером
             document.querySelector('[href*=transfer]').href = document.querySelector('[href*=transfer]').href + "?node=5";
         }
-        if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}/g) && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}.+/g)) { // Главная страница
+        if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}/g) && !window.location.href.match(/.+servers\/[\da-zA-Z]{8}\/.+/g)) { // Главная страница
             const consoleScrollToRemove = document.getElementById('console-scroll'),
                 newConsoleScroll = consoleScrollToRemove.cloneNode(true);
             consoleScrollToRemove.parentNode.replaceChild(newConsoleScroll, consoleScrollToRemove);
