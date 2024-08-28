@@ -255,6 +255,9 @@ div:has(> div#console).expanded {
   text-overflow: ellipsis;
   padding-right: 20px;
 }
+.w-full.min-h-\[600px\].bg-\[\#1c2230\].p-4.rounded-lg.outline-none.text-sm {
+  font-family: "Cascadia Code", monospace !important;
+}
 
 /* Избранные сервера */
 #favServerWrapper {
