@@ -198,6 +198,14 @@ div:has(> div#console).expanded {
 .grid.grid-cols-6.items-center.px-4.justify-between:nth-child(even)[class*="bg-green-500/[.05]"] {
   background-color: #0f01 !important;
 }
+.x_title_wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.x_title_wrapper_text {
+  margin-left: 1rem;
+}
 
 /* Панель "Перенос сервера" */
 .p-6.w-full.grid.grid-cols-2.gap-\[50px\]:has(div:first-child > form .flex.items-end) > div:first-child > form .flex.items-end {
