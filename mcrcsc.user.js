@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      0.0.35
+// @version      0.0.36
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -230,11 +230,26 @@ document.addEventListener("DOMContentLoaded", async function () {
         tabsBar.querySelector('div.w-full.flex.items-center.px-8.my-6 > p.text-sm.text-white.font-bold.pl-\\[25px\\]').remove() // Удаление текста "Админ панель"
         tabsBar.parentElement.prepend(closeMenuElement);
 
+        let searchBar;
         if (!window.location.href.includes("status")) {
-            const searchBar = document.querySelectorAll('[action="/servers"]')[0].lastElementChild;
-            searchBar.append(favServerWrapper);
-            searchBar.prepend(hamburgerButton);
+            searchBar = document.querySelectorAll('[action="/servers"]')[0].lastElementChild;
+        } else {
+            searchBar = document.querySelector("div.w-screen.flex > div.w-full > div.p-6.w-full.grid.grid-cols-2.gap-\\[50px\\] > div.w-full");
+            searchBar.parentElement.classList.remove('grid-cols-2');
+            let newTitleWrapper = document.createElement('DIV'); newTitleWrapper.classList.add('x_title_wrapper'); searchBar.prepend(newTitleWrapper);
+            let newTitleWrapperText = document.createElement('DIV'); newTitleWrapperText.classList.add('x_title_wrapper_text'); newTitleWrapper.append(newTitleWrapperText);
+            Array.from(searchBar.children).forEach((el) => {
+                if (el.tagName == 'P') {
+                    el.classList.remove('mb-2')
+                    newTitleWrapperText.append(el);
+                }
+            })
+            searchBar = newTitleWrapper;
         }
+        console.log(searchBar);
+        searchBar.append(favServerWrapper);
+        searchBar.prepend(hamburgerButton);
+
 
         if (window.location.href.match(/.+servers\/[\da-zA-Z]{8}.*/g)) { // Любая страница управления сервером
             document.querySelector('[href*=transfer]').href = document.querySelector('[href*=transfer]').href + "?node=5";
