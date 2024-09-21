@@ -1,7 +1,3 @@
-html {
-  transition: opacity 300ms ease-in-out;
-}
-
 /* Сообщение о статусе */
 .updateAvaliable {
   background-color: rgba(245, 158, 11, 0.5);
