@@ -329,11 +329,12 @@ button[onclick="favClicked(this)"] {
 /* Мобилка */
 @media (max-width: 800px) {
   div.p-6.w-full.flex.gap-\[25px\].relative {
+    width: 100dvw;
     flex-direction: column;
   }
   div.p-6.w-full.flex.gap-\[25px\].relative > div {
-    min-width: 88dvw !important;
-    width: 88dvw !important;
+    min-width: 100% !important;
+    width: 100% !important;
   }
   div.p-6.w-full.flex.gap-\[25px\].relative > div:first-child > div:is(:nth-child(2), :nth-child(3)) {
     display: none;
