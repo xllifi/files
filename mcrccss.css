@@ -25,7 +25,7 @@
   width: max-content;
   height: 100%;
 }
-.min-w-\[250px\].h-screen.bg-\[\#22293b\].fixed.top-0.left-0 + div.relative {
+.w-screen.flex > .relative {
   width: calc(-6rem + 100vw) !important;
 }
 .min-w-\[250px\].h-screen.bg-\[\#22293b\].fixed.top-0.left-0 > div.px-8 {
@@ -328,8 +328,10 @@ button[onclick="favClicked(this)"] {
 
 /* Мобилка */
 @media (max-width: 800px) {
+  div.w-screen.flex > div.relative {
+    width: 100dvw !important;
+  }
   div.p-6.w-full.flex.gap-\[25px\].relative {
-    width: 100dvw;
     flex-direction: column;
   }
   div.p-6.w-full.flex.gap-\[25px\].relative > div {
