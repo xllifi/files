@@ -390,6 +390,9 @@ button[onclick="favClicked(this)"] {
     opacity: 0;
     z-index: 4;
   }
+  input, select {
+    min-width: 100px;
+  }
 }
 
 #hamburgerMenuButton, #closeMenu {
