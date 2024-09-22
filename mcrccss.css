@@ -245,44 +245,124 @@ div:has(> div#console).expanded {
 }
 
 /* Панель "Файлы сервера" */
-.bg-\[\#22293b\].p-4.rounded-lg:has(*[href*="/files"]) {
+#x_files_root {
+  background-color: #22293b;
   display: flex;
   flex-direction: column;
-  padding: 0.5rem !important;
-  gap: 0.25rem;
+  padding: 0.5rem;
+  gap: 0.2rem;
+  border-radius: 0.5rem;
+
+  &>#x_files_header {
+    display: grid;
+    grid-template-columns: 3fr 1fr 2fr 2fr 1fr;
+    gap: .2rem;
+    text-align: center;
+    padding-bottom: .2rem;
+    border-bottom: solid 1px #fff2;
+
+    &>p {
+      background: #1c2230;
+      border-radius: .2rem;
+    }
+  }
 }
 
-.bg-\[\#22293b\].p-4.rounded-lg > :is(*:has(*[href*="/files"]), *[href*="/files"]) {
+*:is(#x_file, #x_folder) {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 3fr 1fr 2fr 2fr 1fr;
+  align-items: center;
   padding: 0 0.6rem;
   border-radius: 0.25rem;
   background-color: #1c2230;
   border-bottom: solid 1px #fff2;
   height: 36px;
-}
-
-.bg-\[\#22293b\].p-4.rounded-lg > p {
   align-content: center;
-  margin: unset;
+
+  & p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: .4rem;
+  }
+
+  &>p:first-of-type {
+    display: flex;
+    align-items: center;
+
+    &::before {
+      height: 18px;
+      aspect-ratio: 1/1;
+      margin-right: .6rem;
+    }
+  }
 }
 
-.bg-\[\#22293b\].p-4.rounded-lg > div.w-full.h-\[40px\].grid.grid-cols-6.items-center.px-4.hover:bg-white/\[\.01\].border-b border-white/\[\.05\]:first-of-type {
-  background-color: #22293b;
-  border-bottom: none;
-}
-
-.bg-\[\#22293b\].p-4.rounded-lg > * .min-w-\[50px\] {
-  min-width: 22px;
-  margin-right: -10px; 
-}
-
-.bg-\[\#22293b\].p-4.rounded-lg p {
+#x_file>p:first-of-type {
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  padding-right: 20px;
+  margin-right: .6rem;
+
+  &::before {
+    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23eee' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z'/><path d='M14 2v4a2 2 0 0 0 2 2h4'/></svg>");
+  }
 }
-.w-full.min-h-\[600px\].bg-\[\#1c2230\].p-4.rounded-lg.outline-none.text-sm {
-  font-family: "Cascadia Code", monospace !important;
+
+#x_folder>p:first-of-type {
+  &::before {
+    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23eee' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z'/></svg>");
+  }
+}
+
+#x_download {
+  background: #0078eb;
+  padding: 0 .2rem;
+  height: 24px;
+  border-radius: .2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 620;
+  position: absolute;
+  right: .4rem;
+
+  &::before {
+    height: 18px;
+    aspect-ratio: 1/1;
+    margin-right: .2rem;
+    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='7 10 12 15 17 10'/><line x1='12' x2='12' y1='15' y2='3'/></svg>");
+  }
+}
+
+@media (max-width: 800px) {
+  #x_files_root {
+    &>*>:is(:nth-child(3), :nth-child(4)) {
+      display: none;
+    }
+
+    &>#x_files_header {
+      grid-template-columns: 3fr 1fr .4fr;
+    }
+  }
+
+  *:is(#x_file, #x_folder) {
+    grid-template-columns: 3fr 1fr .4fr;
+
+    &>p:first-of-type {
+      grid-column: unset;
+    }
+  }
+
+  #x_download {
+    width: 26px;
+    font-size: 0;
+
+    &::before {
+      margin-right: 0;
+    }
+  }
 }
 
 /* Избранные сервера */
