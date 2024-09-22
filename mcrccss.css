@@ -203,9 +203,6 @@ div:has(> div#console).expanded {
   align-items: center;
   margin-bottom: 1rem;
 }
-.x_title_wrapper_text {
-  margin-left: 1rem;
-}
 
 /* Панель "Перенос сервера" */
 .p-6.w-full.grid.grid-cols-2.gap-\[50px\]:has(div:first-child > form .flex.items-end) > div:first-child > form .flex.items-end {
@@ -381,6 +378,7 @@ button[onclick="favClicked(this)"] {
     cursor: pointer;
     height: 42px;
     width: 42px;
+    margin-right: 1rem;
   }
   #closeMenu {
     position: fixed;
