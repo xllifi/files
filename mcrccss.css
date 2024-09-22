@@ -244,6 +244,7 @@ div:has(> div#console).expanded {
   padding: 0.5rem !important;
 }
 
+/* files */
 /* Панель "Файлы сервера" */
 #x_files_root {
   background-color: #22293b;
