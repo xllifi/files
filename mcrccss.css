@@ -378,7 +378,7 @@ button[onclick="favClicked(this)"] {
     cursor: pointer;
     height: 42px;
     width: 42px;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
   #closeMenu {
     position: fixed;
