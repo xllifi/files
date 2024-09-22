@@ -114,9 +114,9 @@ td:has(a[href*=\/servers\/]):hover {
 }
 .x_copy_button {
   margin-left: auto;
-  height: 54px;
-  width: 54px;
-  padding: .5rem;
+  height: 40px;
+  aspect-ratio: 1/1;
+  padding: 8px;
   border-radius: .5rem;
   background-color: #1c2230;
   flex-shrink: 0;
