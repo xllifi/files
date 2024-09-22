@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      1.0.3
+// @version      1.0.4
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -321,11 +321,19 @@ async function remasterFiles() {
   filesHeader.prepend(filesHeader.querySelector('&>div>p'));
   filesHeader.querySelector('&>div').remove();
 
-  filesRoot.querySelectorAll('&>a:not(#x_file)').forEach((el) => {
+  filesRoot.querySelectorAll('&>a:not(#x_files_file)').forEach((el) => {
+    if (el.querySelector('p').classList.contains('font-bold')) {
+      el.querySelector('p').removeAttribute('class');
+      el.querySelector('div').remove();
+      el.removeAttribute('class');
+      el.id = 'x_files_return';
+      return;
+    }
+    
     let x_elName = document.createElement('p');
     x_elName.innerHTML = el.querySelector('&>div>p').innerHTML;
 
-    el.id = 'x_folder';
+    el.id = 'x_files_folder';
     el.removeAttribute('class');
     el.querySelector('&>div').remove();
 
@@ -336,10 +344,10 @@ async function remasterFiles() {
     let name = el.querySelector('&>a>p');
 
     let download = el.querySelector('&>a[target="_blank"]');
-    download.id = 'x_download';
+    download.id = 'x_files_download';
 
     let newCell = document.createElement('a');
-    newCell.id = 'x_file';
+    newCell.id = 'x_files_file';
     newCell.href = el.querySelector('&>a').href;
 
     el.prepend(name);
