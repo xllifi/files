@@ -245,7 +245,7 @@ div:has(> div#console).expanded {
 }
 
 /* Панель "Файлы сервера" */
-#x_files_files_root {
+#x_files_root {
   background-color: #22293b;
   display: flex;
   flex-direction: column;
@@ -253,7 +253,7 @@ div:has(> div#console).expanded {
   gap: 0.2rem;
   border-radius: 0.5rem;
 
-  &>#x_files_files_header {
+  &>#x_files_header {
     display: grid;
     grid-template-columns: 3fr 1fr 2fr 2fr 1fr;
     gap: .2rem;
@@ -337,12 +337,12 @@ div:has(> div#console).expanded {
 }
 
 @media (max-width: 800px) {
-  #x_files_files_root {
+  #x_files_root {
     &>*>:is(:nth-child(3), :nth-child(4)) {
       display: none;
     }
 
-    &>#x_files_files_header {
+    &>#x_files_header {
       grid-template-columns: 3fr 1fr .4fr;
     }
   }
