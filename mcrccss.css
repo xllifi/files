@@ -113,13 +113,13 @@ td:has(a[href*=\/servers\/]):hover {
   border-bottom: solid 1px #ffffff1a;
 }
 .x_copy_button {
-  margin-left: auto;
+  position: absolute;
+  right: 1rem;
   height: 40px;
   aspect-ratio: 1/1;
   padding: 8px;
   border-radius: .5rem;
-  background-color: #1c2230;
-  flex-shrink: 0;
+  background-color: #1c2230ee;
   cursor: pointer;
 }
 .x_copy_button::before {
