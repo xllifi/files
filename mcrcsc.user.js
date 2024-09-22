@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      1.0.2
+// @version      1.0.3
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -323,8 +323,6 @@ async function remasterFiles() {
 
   filesRoot.querySelectorAll('&>a:not(#x_file)').forEach((el) => {
     let x_elName = document.createElement('p');
-    console.log(el)
-    console.log(el.querySelector('&>div>p'))
     x_elName.innerHTML = el.querySelector('&>div>p').innerHTML;
 
     el.id = 'x_folder';
