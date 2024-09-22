@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      1.0.1
+// @version      1.0.2
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -14,8 +14,8 @@
 // ==/UserScript==
 
 /** @type { HTMLElement } */
-let docHead, loadStyle, cssLink,
-sidebar, statusMsg,
+let docHead, loadStyle, cssLink, 
+sidebar, statusMsg, 
 consoleWrapper, consoleView, autoScrollButton,
 tarifPanel, copyNameButton,
 searchBar, closeMenuElement, hamburgerButton,
@@ -28,11 +28,12 @@ let scrollIconDisabled = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3
 let scrollIconEnabled = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28' fill='none' stroke-linecap='round' stroke-linejoin='round'><defs><g id='scrollButtonPath'><path d='M12 19V5'/><path d='m6 13 6 6 6-6'/><path d='M19 23H5'/></g></defs><use href='%23scrollButtonPath' stroke='%230078eb' stroke-width='8'/><use href='%23scrollButtonPath' stroke='white' stroke-width='2'/></svg>")`;
 
 /** @type { RegExp } */
-let searchPageRegex, statusPageRegex, anyServerPageRegex, infoPageRegex, controlPanelPageRegex;
+let searchPageRegex, statusPageRegex, anyServerPageRegex, infoPageRegex, filesPageRegex, controlPanelPageRegex;
 searchPageRegex = /^(?!.*my).*servers\/?$/m;
 statusPageRegex = /^(?!.*my).*status\/?$/m;
 anyServerPageRegex = /^(?!.*my).*servers\/([\d\w]{8})/m;
 infoPageRegex = /^(?!.*my).*servers\/[\d\w]{8}\/?$/m;
+filesPageRegex = /^(?!.*my).*servers\/[\d\w]{8}\/files\?.*$/m;
 controlPanelPageRegex = /^.*my.*server\/([\d\w]{8}).*$/m;
 
 let autoScrollEnabled = false;
@@ -42,7 +43,7 @@ let serverId, serverName;
 
 /**
  * Prints the string and prepends a prefix
- *
+ * 
  * @param {string} string A string to print
  */
 function println(string) {
@@ -51,8 +52,8 @@ function println(string) {
 
 /**
  * Ensures that element exists and returns it.
- *
- * @param {string} selector
+ * 
+ * @param {string} selector 
  * @returns {HTMLElement}
  */
 function getEl(selector) {
@@ -100,14 +101,14 @@ async function loadCss() {
 
 async function addConsoleAutoScroll() {
   println('Применяется скрипт страницы сервера...');
-
+  
   autoScrollButton = document.createElement('button');
   autoScrollButton.id = 'consoleScrollToggle';
   autoScrollButton.classList.add('consoleButton');
   autoScrollButton.classList.add('scroll');
   autoScrollButton.style.backgroundImage = scrollIconDisabled;
   autoScrollButton.addEventListener('click', handleAutoScrollButton);
-
+  
   document.addEventListener('DOMContentLoaded', async function removeConsoleEvents() {
     consoleWrapper = await getEl('#console-scroll');
     let newConsoleWrapper = consoleWrapper.cloneNode(true);
@@ -162,13 +163,9 @@ async function addCopyNameButton() {
       switch (true) {
         case firstChild.innerHTML == "UUID":
           serverId = secondChild.innerHTML;
-          console.log(firstChild);
-          console.log(secondChild);
           break;
         case firstChild.innerHTML == "Название":
           serverName = secondChild.innerHTML;
-          console.log(firstChild);
-          console.log(secondChild);
           break;
         default:
           break;
@@ -181,7 +178,7 @@ async function handleCopyNameButton(e) {
   await navigator.clipboard.writeText(`[${serverId} «${serverName}»](https://my.minerent.net/server/${serverId})`);
 }
 
-async function remasterSidebar() {
+async function remasterSidebar() { // TODO: Remake same as remasterFiles(), not as 0.0.36
   sidebar = await getEl('div.w-screen.flex > div.min-w-\\[250px\\].max-w-\\[250px\\].h-screen.bg-\\[\\#22293b\\].fixed.top-0.left-0');
   sidebar.classList.add('x-sidebar'); // TODO: Remove all other classes.
 
@@ -224,7 +221,7 @@ async function checkVersion() {
 async function addLinksToControlPanel() {
   let oldPageUrl = pageUrl;
   askAdminIP();
-
+  
   submenuButtonOpenInAdmin = document.createElement('a');
   submenuButtonOpenInAdmin.innerHTML = "Открыть в админке";
   submenuButtonOpenInAdmin.classList.add('panelSubmenuLink');
@@ -313,6 +310,49 @@ function handleHamburgerButton() {
   }
 }
 
+async function remasterFiles() {
+  let filesRoot = await getEl('div.bg-\\[\\#22293b\\].p-4.rounded-lg');
+  filesRoot.removeAttribute('class');
+  filesRoot.id = 'x_files_root';
+
+  let filesHeader = await getEl('#x_files_root > div:first-of-type');
+  filesHeader.removeAttribute('class');
+  filesHeader.id = 'x_files_header';
+  filesHeader.prepend(filesHeader.querySelector('&>div>p'));
+  filesHeader.querySelector('&>div').remove();
+
+  filesRoot.querySelectorAll('&>a:not(#x_file)').forEach((el) => {
+    let x_elName = document.createElement('p');
+    console.log(el)
+    console.log(el.querySelector('&>div>p'))
+    x_elName.innerHTML = el.querySelector('&>div>p').innerHTML;
+
+    el.id = 'x_folder';
+    el.removeAttribute('class');
+    el.querySelector('&>div').remove();
+
+    el.prepend(x_elName);
+  })
+
+  filesRoot.querySelectorAll('&>div:not(:first-of-type)').forEach((el) => {
+    let name = el.querySelector('&>a>p');
+
+    let download = el.querySelector('&>a[target="_blank"]');
+    download.id = 'x_download';
+
+    let newCell = document.createElement('a');
+    newCell.id = 'x_file';
+    newCell.href = el.querySelector('&>a').href;
+
+    el.prepend(name);
+    el.querySelectorAll('p').forEach((subEl) => {
+      newCell.append(subEl);
+    })
+    newCell.append(download);
+    el.parentElement.replaceChild(newCell, el);
+  })
+}
+
 // Are we on `my.minerent.net`? Don't execute further if we are.
 if (controlPanelPageRegex.test(pageUrl)) {
   println('Применяется скрипт страницы обычной ПУ...');
@@ -340,6 +380,9 @@ switch (true) {
     addConsoleAutoScroll();
     addCopyNameButton();
     break;
+  case filesPageRegex.test(pageUrl):
+    remasterFiles();
+    break;
   default:
     break;
 }
@@ -347,5 +390,3 @@ switch (true) {
 loadCss();
 remasterSidebar();
 addMobileButtons();
-
-// TODO: Add mobile hamburger button
