@@ -112,6 +112,9 @@ td:has(a[href*=\/servers\/]):hover {
   margin-bottom: 5px;
   border-bottom: solid 1px #ffffff1a;
 }
+div:has(>.x_copy_button) {
+  position: relative;
+}
 .x_copy_button {
   position: absolute;
   right: 1rem;
