@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      1.0
+// @version      1.0.1
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -14,8 +14,8 @@
 // ==/UserScript==
 
 /** @type { HTMLElement } */
-let docHead, loadStyle, cssLink, 
-sidebar, statusMsg, 
+let docHead, loadStyle, cssLink,
+sidebar, statusMsg,
 consoleWrapper, consoleView, autoScrollButton,
 tarifPanel, copyNameButton,
 searchBar, closeMenuElement, hamburgerButton,
@@ -42,7 +42,7 @@ let serverId, serverName;
 
 /**
  * Prints the string and prepends a prefix
- * 
+ *
  * @param {string} string A string to print
  */
 function println(string) {
@@ -51,8 +51,8 @@ function println(string) {
 
 /**
  * Ensures that element exists and returns it.
- * 
- * @param {string} selector 
+ *
+ * @param {string} selector
  * @returns {HTMLElement}
  */
 function getEl(selector) {
@@ -100,14 +100,14 @@ async function loadCss() {
 
 async function addConsoleAutoScroll() {
   println('Применяется скрипт страницы сервера...');
-  
+
   autoScrollButton = document.createElement('button');
   autoScrollButton.id = 'consoleScrollToggle';
   autoScrollButton.classList.add('consoleButton');
   autoScrollButton.classList.add('scroll');
   autoScrollButton.style.backgroundImage = scrollIconDisabled;
   autoScrollButton.addEventListener('click', handleAutoScrollButton);
-  
+
   document.addEventListener('DOMContentLoaded', async function removeConsoleEvents() {
     consoleWrapper = await getEl('#console-scroll');
     let newConsoleWrapper = consoleWrapper.cloneNode(true);
@@ -157,8 +157,8 @@ async function addCopyNameButton() {
 
   document.addEventListener('DOMContentLoaded', function getServerData() {
     copyNameButton.parentElement.parentElement.querySelectorAll('&>div:not(.mb-4)>div').forEach((el) => {
-      firstChild = el.firstElementChild;
-      secondChild = firstChild.nextElementSibling;
+      let firstChild = el.firstElementChild;
+      let secondChild = firstChild.nextElementSibling;
       switch (true) {
         case firstChild.innerHTML == "UUID":
           serverId = secondChild.innerHTML;
@@ -224,7 +224,7 @@ async function checkVersion() {
 async function addLinksToControlPanel() {
   let oldPageUrl = pageUrl;
   askAdminIP();
-  
+
   submenuButtonOpenInAdmin = document.createElement('a');
   submenuButtonOpenInAdmin.innerHTML = "Открыть в админке";
   submenuButtonOpenInAdmin.classList.add('panelSubmenuLink');
@@ -242,8 +242,8 @@ async function addLinksToControlPanel() {
   async function addLinks() {
     submenuButtonWrapperLeft = await getEl('.panelSubmenu > div.container.mx-auto.flex.items-center.justify-between > div.flex.items-center');
 
-    submenuButtonWrapperLeft.appendChild(submenuButtonChangeAdminIP);
     submenuButtonWrapperLeft.appendChild(submenuButtonOpenInAdmin);
+    submenuButtonWrapperLeft.appendChild(submenuButtonChangeAdminIP);
   }
   addLinks();
 
@@ -347,3 +347,5 @@ switch (true) {
 loadCss();
 remasterSidebar();
 addMobileButtons();
+
+// TODO: Add mobile hamburger button
