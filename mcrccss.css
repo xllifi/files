@@ -276,7 +276,7 @@ div:has(> div#console).expanded {
   grid-template-columns: 3fr 1fr 2fr 2fr 1fr;
   align-items: center;
   padding: 0 0.6rem;
-  border-radius: 0.25rem;
+  border-radius: 0.2rem;
   background-color: #1c2230;
   border-bottom: solid 1px #fff2;
   height: 36px;
@@ -346,6 +346,22 @@ div:has(> div#console).expanded {
     margin-right: .2rem;
     content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='7 10 12 15 17 10'/><line x1='12' x2='12' y1='15' y2='3'/></svg>");
   }
+}
+
+#x_files_reader-path {
+  font-family: "Cascadia Code", monospace;
+  font-size: .9rem;
+  padding: .2rem .6rem;
+  border-radius: .2rem;
+}
+
+#x_files_reader-text {
+  background-color: #1c2230;
+  font-family: "Cascadia Code", monospace;
+  font-size: 1rem;
+  padding: .2rem .6rem;
+  border-radius: .2rem;
+  height: 60vh;
 }
 
 @media (max-width: 800px) {
