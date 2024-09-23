@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      1.0.5
+// @version      1.0.6
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -325,8 +325,8 @@ async function remasterFileList() {
   filesHeader.prepend(filesHeader.querySelector('&>div>p'));
   filesHeader.querySelector('&>div').remove();
 
+  
   filesRoot.querySelectorAll('&>a:not(#x_files_file)').forEach((el) => {
-    println('Итерирую по папкам..')
     if (el.querySelector('p').classList.contains('font-bold')) {
       el.querySelector('p').removeAttribute('class');
       el.querySelector('div').remove();
@@ -343,7 +343,7 @@ async function remasterFileList() {
     el.querySelector('&>div').remove();
 
     el.prepend(x_elName);
-  })
+  }) 
 
   filesRoot.querySelectorAll('&>div:not(:first-of-type)').forEach((el) => {
     let name = el.querySelector('&>a>p');
@@ -390,7 +390,10 @@ async function remasterFileReader() {
 // Are we on `my.minerent.net`? Don't execute further if we are.
 if (controlPanelPageRegex.test(pageUrl)) {
   println('Применяется скрипт страницы обычной ПУ...');
-  addLinksToControlPanel();
+  document.addEventListener('DOMContentLoaded', function init() {
+    addLinksToControlPanel();
+    document.removeEventListener('DOMContentLoaded', init);
+  })
   return;
 }
 
@@ -411,19 +414,31 @@ switch (true) {
   case searchPageRegex.test(pageUrl):
     break;
   case infoPageRegex.test(pageUrl):
-    addConsoleAutoScroll();
-    addCopyNameButton();
+    document.addEventListener('DOMContentLoaded', function execInfoPage() {
+      addConsoleAutoScroll();
+      addCopyNameButton();
+      document.removeEventListener('DOMContentLoaded', execInfoPage)      
+    })
     break;
   case fileListPageRegex.test(pageUrl):
-    remasterFileList();
+    document.addEventListener('DOMContentLoaded', function execFileList() {
+      remasterFileList();
+      document.removeEventListener('DOMContentLoaded', execFileList)      
+    })
     break;
-  case fileReaderPageRegex.test(pageUrl):
-    remasterFileReader();
+    case fileReaderPageRegex.test(pageUrl):
+    document.addEventListener('DOMContentLoaded', function execFileReader() {
+      remasterFileReader();
+      document.removeEventListener('DOMContentLoaded', execFileReader)      
+    })
     break;
   default:
     break;
 }
 
 loadCss();
-remasterSidebar();
-addMobileButtons();
+document.addEventListener('DOMContentLoaded', function init() {
+  remasterSidebar();
+  addMobileButtons();
+  document.removeEventListener('DOMContentLoaded', init);
+})
