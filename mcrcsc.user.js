@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      1.0.4
+// @version      1.0.5
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -28,12 +28,13 @@ let scrollIconDisabled = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3
 let scrollIconEnabled = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28' fill='none' stroke-linecap='round' stroke-linejoin='round'><defs><g id='scrollButtonPath'><path d='M12 19V5'/><path d='m6 13 6 6 6-6'/><path d='M19 23H5'/></g></defs><use href='%23scrollButtonPath' stroke='%230078eb' stroke-width='8'/><use href='%23scrollButtonPath' stroke='white' stroke-width='2'/></svg>")`;
 
 /** @type { RegExp } */
-let searchPageRegex, statusPageRegex, anyServerPageRegex, infoPageRegex, filesPageRegex, controlPanelPageRegex;
+let searchPageRegex, statusPageRegex, anyServerPageRegex, infoPageRegex, fileListPageRegex, controlPanelPageRegex;
 searchPageRegex = /^(?!.*my).*servers\/?$/m;
 statusPageRegex = /^(?!.*my).*status\/?$/m;
 anyServerPageRegex = /^(?!.*my).*servers\/([\d\w]{8})/m;
 infoPageRegex = /^(?!.*my).*servers\/[\d\w]{8}\/?$/m;
-filesPageRegex = /^(?!.*my).*servers\/[\d\w]{8}\/files\?.*$/m;
+fileListPageRegex = /^(?!.*my).*servers\/[\d\w]{8}\/files\?dir=.*$/m;
+fileReaderPageRegex = /^(?!.*my).*servers\/[\d\w]{8}\/files\/read\?file=.*$/m;
 controlPanelPageRegex = /^.*my.*server\/([\d\w]{8}).*$/m;
 
 let autoScrollEnabled = false;
@@ -87,7 +88,7 @@ async function loadCss() {
 
   // General CSS
   cssLink = document.createElement('link');
-  cssLink.href = 'https://xllifi.github.io/files/mcrccss.css';
+  cssLink.href = 'https://xllifi.github.io/files/mcrccss.css?q=' + Math.floor(Math.random() * Math.pow(10, 10));
   cssLink.type = 'text/css';
   cssLink.rel = 'stylesheet';
   docHead.append(cssLink);
@@ -276,15 +277,16 @@ async function addMobileButtons() {
   hamburgerButton.id = 'hamburgerMenuButton';
   hamburgerButton.addEventListener('click', handleHamburgerButton);
 
+  let titleRoot, titleWrapper;
   switch (true) {
     case statusPageRegex.test(pageUrl):
       searchBar = await getEl('div.w-full:has(>p.text-lg.font-bold)');
       searchBar.parentElement.classList.remove('grid-cols-2');
 
-      let titleRoot = document.createElement('div');
+      titleRoot = document.createElement('div');
       titleRoot.classList.add('x_title_wrapper');
       searchBar.prepend(titleRoot);
-      let titleWrapper = document.createElement('div');
+      titleWrapper = document.createElement('div');
       titleWrapper.classList.add('x_title_wrapper_text');
       titleRoot.append(titleWrapper);
 
@@ -310,7 +312,9 @@ function handleHamburgerButton() {
   }
 }
 
-async function remasterFiles() {
+async function remasterFileList() {
+  println('Применяется скрипт списка файлов...')
+
   let filesRoot = await getEl('div.bg-\\[\\#22293b\\].p-4.rounded-lg');
   filesRoot.removeAttribute('class');
   filesRoot.id = 'x_files_root';
@@ -322,6 +326,7 @@ async function remasterFiles() {
   filesHeader.querySelector('&>div').remove();
 
   filesRoot.querySelectorAll('&>a:not(#x_files_file)').forEach((el) => {
+    println('Итерирую по папкам..')
     if (el.querySelector('p').classList.contains('font-bold')) {
       el.querySelector('p').removeAttribute('class');
       el.querySelector('div').remove();
@@ -359,6 +364,29 @@ async function remasterFiles() {
   })
 }
 
+async function remasterFileReader() {
+  println('Применяется скрипт просмотрщика файлов...')
+
+  let filesRoot = await getEl('div.bg-\\[\\#22293b\\].p-4.rounded-lg');
+  filesRoot.removeAttribute('class');
+  filesRoot.id = 'x_files_root';
+
+  let returnButton = filesRoot.querySelector('&>a');
+  returnButton.removeAttribute('class');
+  returnButton.id = 'x_files_return';
+  returnButton.querySelector('div').remove();
+  returnButton.querySelector('p').removeAttribute('class');
+
+  let filePath = filesRoot.querySelector('&>p');
+  filePath.innerHTML = filePath.innerHTML.replace(/^Путь: /m, '');
+  filePath.removeAttribute('class');
+  filePath.id = 'x_files_reader-path';
+
+  let fileText = filesRoot.querySelector('&>textarea');
+  fileText.removeAttribute('class');
+  fileText.id = 'x_files_reader-text';
+}
+
 // Are we on `my.minerent.net`? Don't execute further if we are.
 if (controlPanelPageRegex.test(pageUrl)) {
   println('Применяется скрипт страницы обычной ПУ...');
@@ -386,8 +414,11 @@ switch (true) {
     addConsoleAutoScroll();
     addCopyNameButton();
     break;
-  case filesPageRegex.test(pageUrl):
-    remasterFiles();
+  case fileListPageRegex.test(pageUrl):
+    remasterFileList();
+    break;
+  case fileReaderPageRegex.test(pageUrl):
+    remasterFileReader();
     break;
   default:
     break;
