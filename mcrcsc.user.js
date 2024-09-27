@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      1.0.6
+// @version      1.0.7
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -14,10 +14,10 @@
 // ==/UserScript==
 
 /** @type { HTMLElement } */
-let docHead, loadStyle, cssLink, 
-sidebar, statusMsg, 
+let docHead, loadStyle, cssLink,
+sidebar, statusMsg,
 consoleWrapper, consoleView, autoScrollButton,
-tarifPanel, copyNameButton,
+infoPanel, tarifPanel, copyNameButton,
 searchBar, closeMenuElement, hamburgerButton,
 submenuButtonWrapperLeft, submenuButtonOpenInAdmin, submenuButtonChangeAdminIP;
 
@@ -28,7 +28,7 @@ let scrollIconDisabled = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3
 let scrollIconEnabled = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28' fill='none' stroke-linecap='round' stroke-linejoin='round'><defs><g id='scrollButtonPath'><path d='M12 19V5'/><path d='m6 13 6 6 6-6'/><path d='M19 23H5'/></g></defs><use href='%23scrollButtonPath' stroke='%230078eb' stroke-width='8'/><use href='%23scrollButtonPath' stroke='white' stroke-width='2'/></svg>")`;
 
 /** @type { RegExp } */
-let searchPageRegex, statusPageRegex, anyServerPageRegex, infoPageRegex, fileListPageRegex, controlPanelPageRegex;
+let searchPageRegex, statusPageRegex, anyServerPageRegex, infoPageRegex, fileListPageRegex, fileReaderPageRegex, controlPanelPageRegex;
 searchPageRegex = /^(?!.*my).*servers\/?$/m;
 statusPageRegex = /^(?!.*my).*status\/?$/m;
 anyServerPageRegex = /^(?!.*my).*servers\/([\d\w]{8})/m;
@@ -44,7 +44,7 @@ let serverId, serverName;
 
 /**
  * Prints the string and prepends a prefix
- * 
+ *
  * @param {string} string A string to print
  */
 function println(string) {
@@ -53,8 +53,8 @@ function println(string) {
 
 /**
  * Ensures that element exists and returns it.
- * 
- * @param {string} selector 
+ *
+ * @param {string} selector
  * @returns {HTMLElement}
  */
 function getEl(selector) {
@@ -101,34 +101,34 @@ async function loadCss() {
 }
 
 async function addConsoleAutoScroll() {
-  println('Применяется скрипт страницы сервера...');
-  
+  println('Добавляю кнопку автопрокрутки...');
+
   autoScrollButton = document.createElement('button');
   autoScrollButton.id = 'consoleScrollToggle';
   autoScrollButton.classList.add('consoleButton');
   autoScrollButton.classList.add('scroll');
   autoScrollButton.style.backgroundImage = scrollIconDisabled;
   autoScrollButton.addEventListener('click', handleAutoScrollButton);
-  
-  document.addEventListener('DOMContentLoaded', async function removeConsoleEvents() {
-    consoleWrapper = await getEl('#console-scroll');
-    let newConsoleWrapper = consoleWrapper.cloneNode(true);
-    consoleWrapper.parentNode.replaceChild(newConsoleWrapper, consoleWrapper);
-    consoleWrapper = newConsoleWrapper;
-    consoleWrapper.appendChild(autoScrollButton);
 
-    consoleView = await getEl('#console');
-    autoScrollObserver = new MutationObserver(mutations => {
-      println('Console Mutation observed!!')
-      executeAutoScroll();
-    });
-    autoScrollObserver.observe(consoleView, {
-      childList: true,
-      subtree: true
-    });
+  // Remove scroll event
+  consoleWrapper = await getEl('#console-scroll');
+  let newConsoleWrapper = consoleWrapper.cloneNode(true);
+  consoleWrapper.parentNode.replaceChild(newConsoleWrapper, consoleWrapper);
+  consoleWrapper = newConsoleWrapper;
+  consoleWrapper.appendChild(autoScrollButton);
 
-    window.removeEventListener('DOMContentLoaded', removeConsoleEvents);
+  // Add mutation observer for new elements in console
+  consoleView = await getEl('#console');
+  autoScrollObserver = new MutationObserver(mutations => {
+    println('Console Mutation observed!')
+    executeAutoScroll();
   });
+  autoScrollObserver.observe(consoleView, {
+    childList: true,
+    subtree: true
+  });
+  println('Кнопка автопрокрутки добавлена:');
+  console.log(autoScrollButton)
 }
 
 function handleAutoScrollButton() {
@@ -157,22 +157,9 @@ async function addCopyNameButton() {
   copyNameButton.addEventListener('click', handleCopyNameButton);
   tarifPanel.append(copyNameButton);
 
-  document.addEventListener('DOMContentLoaded', function getServerData() {
-    copyNameButton.parentElement.parentElement.querySelectorAll('&>div:not(.mb-4)>div').forEach((el) => {
-      let firstChild = el.firstElementChild;
-      let secondChild = firstChild.nextElementSibling;
-      switch (true) {
-        case firstChild.innerHTML == "UUID":
-          serverId = secondChild.innerHTML;
-          break;
-        case firstChild.innerHTML == "Название":
-          serverName = secondChild.innerHTML;
-          break;
-        default:
-          break;
-      }
-    })
-  })
+  infoPanel = tarifPanel.parentElement.parentElement.querySelector('&>div:not(.mb-4)');
+  serverId = infoPanel.querySelector('div:nth-child(1)>p:nth-child(2)').innerHTML;
+  serverName = infoPanel.querySelector('div:nth-child(2)>p:nth-child(2)').innerHTML;
 }
 
 async function handleCopyNameButton(e) {
@@ -222,7 +209,7 @@ async function checkVersion() {
 async function addLinksToControlPanel() {
   let oldPageUrl = pageUrl;
   askAdminIP();
-  
+
   submenuButtonOpenInAdmin = document.createElement('a');
   submenuButtonOpenInAdmin.innerHTML = "Открыть в админке";
   submenuButtonOpenInAdmin.classList.add('panelSubmenuLink');
@@ -325,7 +312,7 @@ async function remasterFileList() {
   filesHeader.prepend(filesHeader.querySelector('&>div>p'));
   filesHeader.querySelector('&>div').remove();
 
-  
+
   filesRoot.querySelectorAll('&>a:not(#x_files_file)').forEach((el) => {
     if (el.querySelector('p').classList.contains('font-bold')) {
       el.querySelector('p').removeAttribute('class');
@@ -334,7 +321,7 @@ async function remasterFileList() {
       el.id = 'x_files_return';
       return;
     }
-    
+
     let x_elName = document.createElement('p');
     x_elName.innerHTML = el.querySelector('&>div>p').innerHTML;
 
@@ -343,7 +330,7 @@ async function remasterFileList() {
     el.querySelector('&>div').remove();
 
     el.prepend(x_elName);
-  }) 
+  })
 
   filesRoot.querySelectorAll('&>div:not(:first-of-type)').forEach((el) => {
     let name = el.querySelector('&>a>p');
@@ -417,19 +404,19 @@ switch (true) {
     document.addEventListener('DOMContentLoaded', function execInfoPage() {
       addConsoleAutoScroll();
       addCopyNameButton();
-      document.removeEventListener('DOMContentLoaded', execInfoPage)      
+      document.removeEventListener('DOMContentLoaded', execInfoPage)
     })
     break;
   case fileListPageRegex.test(pageUrl):
     document.addEventListener('DOMContentLoaded', function execFileList() {
       remasterFileList();
-      document.removeEventListener('DOMContentLoaded', execFileList)      
+      document.removeEventListener('DOMContentLoaded', execFileList)
     })
     break;
     case fileReaderPageRegex.test(pageUrl):
     document.addEventListener('DOMContentLoaded', function execFileReader() {
       remasterFileReader();
-      document.removeEventListener('DOMContentLoaded', execFileReader)      
+      document.removeEventListener('DOMContentLoaded', execFileReader)
     })
     break;
   default:
