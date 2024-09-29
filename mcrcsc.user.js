@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      1.0.7
+// @version      1.0.8
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -157,7 +157,7 @@ async function addCopyNameButton() {
   copyNameButton.addEventListener('click', handleCopyNameButton);
   tarifPanel.append(copyNameButton);
 
-  infoPanel = tarifPanel.parentElement.parentElement.querySelector('&>div:not(.mb-4)');
+  infoPanel = tarifPanel.parentElement.querySelector('&>div:not(.mb-4)');
   serverId = infoPanel.querySelector('div:nth-child(1)>p:nth-child(2)').innerHTML;
   serverName = infoPanel.querySelector('div:nth-child(2)>p:nth-child(2)').innerHTML;
 }
