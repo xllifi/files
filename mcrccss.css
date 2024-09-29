@@ -514,6 +514,9 @@ button[onclick="favClicked(this)"] {
   input, select {
     min-width: 100px;
   }
+  .bg-\[\#22293b\].p-4.rounded-lg[method="post"] > .flex {
+    width: 30rem;
+  }
 }
 
 #hamburgerMenuButton, #closeMenu {
