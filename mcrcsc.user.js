@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Патчи админки Minecraft.RENT
 // @namespace    https://xllifi.ru
-// @version      1.0.8
+// @version      1.0.9
 // @description  Улучшения для админ-панели Minecraft.RENT
 // @author       xllifi
 // @match        https://*.minerent.net/*
@@ -169,11 +169,12 @@ async function handleCopyNameButton(e) {
 async function remasterSidebar() { // TODO: Remake same as remasterFiles(), not as 0.0.36
   sidebar = await getEl('div.w-screen.flex > div.min-w-\\[250px\\].max-w-\\[250px\\].h-screen.bg-\\[\\#22293b\\].fixed.top-0.left-0');
   sidebar.classList.add('x-sidebar'); // TODO: Remove all other classes.
+  sidebar.removeAttribute(':class');
 
   sidebar.querySelectorAll('a').forEach((el) => { el.innerHTML = '' })
   sidebar.querySelector('div > p').remove();
 
-  if (sidebar.nextElementSibling.classList.contains('min-w-[250px]')) { sidebar.nextElementSibling.remove() };
+  if (sidebar.nextElementSibling.nextElementSibling.classList.contains('lg:min-w-[250px]')) { sidebar.nextElementSibling.nextElementSibling.remove() };
   statusMsg = sidebar.querySelector('a').cloneNode(true);
   statusMsg.classList.remove('hover:bg-white/[.03]');
   statusMsg.target = '_blank';
@@ -256,6 +257,9 @@ function askAdminIP() {
 }
 
 async function addMobileButtons() {
+  const officialHamburgerButton = await getEl('button.lg\\:hidden.fixed.top-6.right-4.z-50.p-2.rounded-md.bg-\\[\\#22293b\\].text-white.shadow-xl');
+  officialHamburgerButton.remove();
+
   closeMenuElement = document.createElement('a');
   closeMenuElement.id = "closeMenu";
   closeMenuElement.addEventListener('click', handleHamburgerButton);
