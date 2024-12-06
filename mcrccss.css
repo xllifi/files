@@ -358,7 +358,7 @@ div:has(> div#console).expanded {
 #x_files_reader-text {
   background-color: #1c2230;
   font-family: "Cascadia Code", monospace;
-  font-size: 1rem;
+  font-size: 0.78rem;
   padding: .2rem .6rem;
   border-radius: .2rem;
   height: 60vh;
